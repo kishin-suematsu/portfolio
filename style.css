@@ -1,0 +1,152 @@
+@font-face {
+  font-family: 'JapanFont';
+  src: url("Japan.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+#header {
+  padding: 0;
+  background-color: #000000;
+}
+
+.menu .navbar-expand-lg {
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: end;
+}
+
+#home {
+  color: #ffffff;
+  background: url("csBackground.png") no-repeat center center fixed;
+  background-size: cover;
+  height: 100%;
+}
+
+#home .element-container {
+  padding-top: 7%;
+  padding-bottom: 7%;
+  height: 100%;
+}
+
+#home .element-container h1 {
+  font-family: 'JapanFont', sans-serif;
+  font-weight: 700;
+  font-size: 3rem;
+  letter-spacing: 0.5em;
+}
+
+#home .occupation {
+  padding-left: 15%;
+  opacity: 0.7;
+}
+
+#home .occupation h3 {
+  font-weight: 500;
+}
+
+#home .occupation span {
+  display: block;
+  height: 2.5px;
+  width: 176px;
+  background-color: #000000;
+}
+
+#about_me {
+  background-color: #ffffff;
+  height: 500px;
+  padding-top: 7%;
+  padding-bottom: 7%;
+  height: 100%;
+}
+
+#about_me .title {
+  font-weight: 700;
+  font-size: 160px;
+  font-size: 4rem;
+  letter-spacing: 0.5em;
+}
+
+#about_me .description {
+  padding: 5%;
+  letter-spacing: 0.2em;
+}
+
+#about_me .description h4 {
+  letter-spacing: 0.1em;
+  padding-bottom: 2%;
+}
+
+#about_me .sns {
+  padding: 5%;
+  letter-spacing: 0.2em;
+  font-weight: 700;
+  font-size: 160px;
+  font-size: 2.5rem;
+  letter-spacing: 0.5em;
+}
+
+#about_me .sns a {
+  list-style: none;
+  text-decoration: none;
+  color: #000000;
+}
+
+#about_me .sns a:hover {
+  text-decoration: underline;
+}
+
+#projects {
+  background-color: #000000;
+  height: 100%;
+}
+
+#projects .title {
+  font-weight: 700;
+  font-size: 160px;
+  font-size: 4rem;
+  letter-spacing: 0.5em;
+  padding-right: 7%;
+}
+
+#projects .project {
+  padding: 3%;
+  padding-top: 5%;
+}
+
+#projects .project .description {
+  padding: 0%;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  letter-spacing: 0.2em;
+}
+
+#projects .project .gif {
+  text-align: center;
+}
+
+@media screen and (min-width: 600px) {
+  #header .btn {
+    display: none;
+  }
+  #home .element-container h1 {
+    font-size: 3rem;
+    letter-spacing: 0.25em;
+  }
+  #about_me .sns ul {
+    font-size: 25px;
+  }
+  #about_me .sns a:hover {
+    text-decoration: underline;
+  }
+  #projects .btn {
+    display: block;
+  }
+  #projects .project .gif .embed {
+    width: 75%;
+  }
+}
+/*# sourceMappingURL=style.css.map */

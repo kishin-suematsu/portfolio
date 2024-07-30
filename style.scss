@@ -1,0 +1,174 @@
+$main-background-color: #000000; //black
+$main-white-color:#ffffff; //white
+
+@font-face {
+    font-family: 'JapanFont';
+    src: url('Japan.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+#header{
+    padding: 0;
+    background-color: $main-background-color;
+
+}
+.menu .navbar-expand-lg {
+    flex-wrap: nowrap;
+    justify-content: end;
+
+}
+
+#home{
+    color: #ffffff;
+    //background: url('japaneseFlag.jpg') no-repeat center center fixed;
+    background: url('csBackground.png') no-repeat center center fixed;
+    background-size: cover;
+    // background-color: $main-background-color;
+    height:100%;
+
+    .element-container{
+        padding-top: 7%;
+        padding-bottom: 7%;
+        height: 100%;
+        h1 {
+            font-family: 'JapanFont', sans-serif;
+            font-weight: 700;
+            font-size: 3rem;
+            letter-spacing: 0.5em;
+        }
+    }
+
+    .occupation{
+        padding-left: 15%;
+        opacity: 0.7;
+        h3{
+            font-weight: 500;
+        }
+        span{
+            display: block;
+            height: 2.5px;
+            width:176px;
+            // background-color:$main-white-color;
+            background-color:#000000;
+        }
+    }
+
+}
+
+#about_me{
+    background-color: $main-white-color;
+    height: 500px;
+    padding-top: 7%;
+    padding-bottom: 7%;
+    height: 100%;
+
+    .title{
+        font-weight: 700;
+        font-size: 160px;
+        font-size: 4rem;
+        letter-spacing: 0.5em;
+    }
+
+    .description{
+        padding:5%;
+        letter-spacing: 0.2em;
+
+        h4{
+            letter-spacing: 0.1em;
+            padding-bottom: 2%;
+        }
+    }
+    
+    .sns{
+        padding:5%;
+        letter-spacing: 0.2em;
+        font-weight: 700;
+        font-size: 160px;
+        font-size: 2.5rem;
+        letter-spacing: 0.5em;
+        a{
+            list-style: none;
+            text-decoration: none;
+            color: $main-background-color;
+        }
+
+        a:hover{
+            text-decoration: underline;
+        }
+        
+    }
+}
+
+#projects{
+    background-color: $main-background-color;
+    height: 100%;
+
+    .title{
+        font-weight: 700;
+        font-size: 160px;
+        font-size: 4rem;
+        letter-spacing: 0.5em;
+        padding-right: 7%;
+    }
+
+    .project{
+        padding: 3%;
+        padding-top: 5%;
+
+        .description{
+            padding:0%;
+            align-items: center;
+            letter-spacing: 0.2em;
+        }
+        .gif{
+            text-align: center;
+        }
+        
+    }
+}
+
+@media screen and (min-width: 600px) {
+
+    #header{
+        .btn{
+            display: none;
+        }
+    }
+
+    #home{
+        .element-container{
+            h1{
+                font-size: 3rem;
+                letter-spacing: 0.25em;
+            }
+        }
+    }
+
+    
+    #about_me{
+        .sns{
+            ul{
+                font-size: 25px;
+            }
+            a:hover{
+                text-decoration: underline;
+            }
+            
+        }
+    }
+
+    #projects{
+        .btn{
+            display: block;
+        }
+        .project{
+            .gif{
+                .embed{
+                    width: 75%;
+                }
+            }
+        }
+    }
+  }
+
