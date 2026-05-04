@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Kishin Suematsu — bilingual freelance engineer in Okinawa. Python, Playwright, Claude/GPT APIs. Two production systems shipped, accepting new briefs.">
-<meta property="og:title" content="Kishin Suematsu · Freelance engineer">
-<meta property="og:description" content="I build quietly reliable systems — automation, AI integrations, and the small machines that run businesses while no one is watching.">
+<meta name="description" content="末松己信 / Kishin Suematsu — 沖縄拠点のバイリンガル・フリーランスエンジニア。Python・Playwright・Claude/GPT APIで業務自動化・AI組み込み・ブラウザRPAを開発。本番システム2件保守中、新規案件受付中。">
+<meta property="og:title" content="末松己信 / Freelance Engineer · 沖縄">
+<meta property="og:description" content="静かに動き続けるシステムを作っています。業務自動化、AI連携、誰も見ていない時間に黙々と仕事をこなす小さな機械たちを。">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://kishin-suematsu.github.io/portfolio/">
-<title>Kishin Suematsu — Freelance Engineer · Okinawa</title>
+<link rel="alternate" hreflang="ja" href="https://kishin-suematsu.github.io/portfolio/">
+<link rel="alternate" hreflang="en" href="https://kishin-suematsu.github.io/portfolio/">
+<link rel="alternate" hreflang="x-default" href="https://kishin-suematsu.github.io/portfolio/">
+<title>末松己信 / Kishin Suematsu — フリーランスエンジニア · 沖縄</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,400;0,9..144,500;0,9..144,700;1,9..144,400;1,9..144,500&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -952,7 +955,7 @@
   @media print { .chat-btn, .chat-panel, .blobs, .noise, .marquee { display: none; } body { background: #fff; color: #000; } }
 </style>
 </head>
-<body class="lang-en">
+<body class="lang-jp">
 
 <div class="noise"></div>
 <div class="blobs">
@@ -968,9 +971,9 @@
     <a href="#work" data-en="Work" data-jp="案件">Work</a>
     <a href="#contact" data-en="Contact" data-jp="連絡">Contact</a>
     <div class="lang-toggle" role="group" aria-label="Language">
-      <button data-set-lang="en" class="active" aria-label="English">EN</button>
+      <button data-set-lang="en" aria-label="English">EN</button>
       <span class="lang-sep">|</span>
-      <button data-set-lang="jp" aria-label="Japanese">JP</button>
+      <button data-set-lang="jp" class="active" aria-label="Japanese">JP</button>
     </div>
   </div>
 </nav>
@@ -1190,9 +1193,9 @@
     <div data-en="Built with HTML, CSS, JS · No frameworks · No tracking" data-jp="HTML / CSS / JSで構築 · フレームワーク不使用 · トラッキングなし">Built with HTML, CSS, JS · No frameworks · No tracking</div>
     <div>
       <div class="lang-toggle">
-        <button data-set-lang="en" class="active" aria-label="English">EN</button>
+        <button data-set-lang="en" aria-label="English">EN</button>
         <span class="lang-sep">|</span>
-        <button data-set-lang="jp" aria-label="Japanese">JP</button>
+        <button data-set-lang="jp" class="active" aria-label="Japanese">JP</button>
       </div>
     </div>
   </div>
@@ -1234,7 +1237,7 @@
 
   /* ---------- Lang toggle ---------- */
   function setLang(lang) {
-    if (lang !== 'en' && lang !== 'jp') lang = 'en';
+    if (lang !== 'en' && lang !== 'jp') lang = 'jp';
     document.body.classList.remove('lang-en', 'lang-jp');
     document.body.classList.add('lang-' + lang);
     document.documentElement.lang = lang === 'jp' ? 'ja' : 'en';
@@ -1252,11 +1255,13 @@
     var i = document.getElementById('chatInput');
     if (i) i.placeholder = lang === 'jp' ? '何でも聞いてください…' : 'Ask anything…';
   }
+  // Initial placeholder before setLang runs (in case JS lang sync is delayed)
+  (function () { var i = document.getElementById('chatInput'); if (i && !i.placeholder.includes('聞いて')) i.placeholder = '何でも聞いてください…'; })();
   document.querySelectorAll('[data-set-lang]').forEach(function (b) {
     b.addEventListener('click', function () { setLang(b.dataset.setLang); });
   });
   var saved = (function () { try { return localStorage.getItem('kishin-lang'); } catch (e) { return null; } })();
-  setLang(saved || 'en');
+  setLang(saved || 'jp');
 
   /* ---------- Nav scroll ---------- */
   var nav = document.getElementById('nav');
