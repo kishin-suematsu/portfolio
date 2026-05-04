@@ -1,191 +1,1638 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Kishin's Portfolio</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  </head>
-  <body>
-    <div id="header" class="container-fluid">
-        <div class="menu navbar navbar-expand-lg justify-content-end">
-            <ul id="navbarNavDropdown" class="menu navbar-nav me-4">
-                <li class="nav-item">
-                    <a href="#home" class="nav-link text-white">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#about_me" class="nav-link text-white">About Me</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#projects" class="nav-link text-white">Projects</a>
-                </li>
-            </ul>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Kishin Suematsu — bilingual freelance engineer in Okinawa. Python, Playwright, Claude/GPT APIs. Two production systems shipped, accepting new briefs.">
+<meta property="og:title" content="Kishin Suematsu · Freelance engineer">
+<meta property="og:description" content="I build quietly reliable systems — automation, AI integrations, and the small machines that run businesses while no one is watching.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kishin-suematsu.github.io/portfolio/">
+<title>Kishin Suematsu — Freelance Engineer · Okinawa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,400;0,9..144,500;0,9..144,700;1,9..144,400;1,9..144,500&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ---------- Tokens ---------- */
+  :root {
+    --bg: #0a0908;
+    --bg-elev: #131210;
+    --bg-card: #1a1816;
+    --ink: #f5f1e8;
+    --ink-2: #a8a29c;
+    --ink-3: #6b6864;
+    --line: rgba(245, 241, 232, 0.08);
+    --line-strong: rgba(245, 241, 232, 0.18);
+    --aqua: #7fffd4;
+    --coral: #ff6b4a;
+    --deep: #2d6a7a;
+    --gold: #e8b04a;
+
+    --display: 'Fraunces', Georgia, 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+    --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+    --body: 'Manrope', -apple-system, 'Hiragino Sans', 'Yu Gothic', sans-serif;
+
+    --maxw: 1240px;
+  }
+
+  /* ---------- Reset ---------- */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--body);
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 1.55;
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  a { color: inherit; }
+  button { font: inherit; cursor: pointer; }
+  img, svg { display: block; max-width: 100%; }
+
+  /* ---------- Atmosphere ---------- */
+  .noise {
+    position: fixed; inset: 0; z-index: 100;
+    pointer-events: none;
+    opacity: 0.045;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+  .blobs {
+    position: fixed; inset: 0; z-index: -1;
+    pointer-events: none; overflow: hidden;
+  }
+  .blob {
+    position: absolute; border-radius: 50%;
+    filter: blur(120px);
+  }
+  .blob-1 { background: var(--coral); width: 620px; height: 620px; top: -160px; right: -120px; opacity: 0.18; }
+  .blob-2 { background: var(--deep); width: 720px; height: 720px; top: 65%; left: -240px; opacity: 0.22; }
+  .blob-3 { background: var(--aqua); width: 420px; height: 420px; top: 35%; right: 28%; opacity: 0.05; }
+  .blob-4 { background: var(--gold); width: 380px; height: 380px; bottom: -80px; right: 20%; opacity: 0.07; }
+
+  /* ---------- Layout ---------- */
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 32px; }
+  .section { padding: 130px 0; position: relative; }
+  .section-num {
+    font-family: var(--mono);
+    font-size: 12px; letter-spacing: 0.14em;
+    color: var(--coral);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .section-title {
+    font-family: var(--display);
+    font-size: clamp(40px, 6.5vw, 88px);
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    font-weight: 500;
+    margin-bottom: 70px;
+    max-width: 920px;
+    font-variation-settings: 'opsz' 90, 'SOFT' 50;
+  }
+  .section-title em {
+    color: var(--coral);
+    font-style: italic;
+    font-variation-settings: 'opsz' 90, 'SOFT' 100;
+    font-weight: 400;
+  }
+
+  /* ---------- Nav ---------- */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 80;
+    padding: 20px 32px;
+    display: flex; justify-content: space-between; align-items: center;
+    transition: background 0.3s, border-color 0.3s, backdrop-filter 0.3s, padding 0.3s;
+    border-bottom: 1px solid transparent;
+  }
+  .nav.scrolled {
+    background: rgba(10, 9, 8, 0.78);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border-bottom-color: var(--line);
+    padding: 14px 32px;
+  }
+  .nav-brand {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .nav-brand .slash { color: var(--coral); padding: 0 2px; }
+  .nav-links {
+    display: flex; gap: 28px; align-items: center;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .nav-links a {
+    color: var(--ink-2); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .lang-toggle {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 6px 10px;
+    border: 1px solid var(--line-strong);
+  }
+  .lang-toggle button {
+    background: none; border: none;
+    color: var(--ink-3);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    padding: 0 4px;
+    transition: color 0.15s;
+  }
+  .lang-toggle button.active { color: var(--coral); }
+  .lang-sep { color: var(--line-strong); padding: 0 2px; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    min-height: 100vh;
+    padding: 150px 0 100px;
+    display: flex; align-items: center;
+    position: relative;
+  }
+  .hero-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1.45fr 1fr;
+    gap: 70px;
+    align-items: end;
+  }
+  .hero-status {
+    display: inline-flex; align-items: center; gap: 11px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    margin-bottom: 38px;
+  }
+  .status-dot {
+    width: 8px; height: 8px;
+    background: var(--aqua); border-radius: 50%;
+    box-shadow: 0 0 12px var(--aqua);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+  .hero-name {
+    font-family: var(--display);
+    font-size: clamp(56px, 12.5vw, 168px);
+    line-height: 0.91;
+    letter-spacing: -0.045em;
+    font-weight: 500;
+    font-variation-settings: 'opsz' 144, 'SOFT' 50;
+  }
+  .hero-name .last {
+    font-style: italic;
+    color: var(--coral);
+    font-variation-settings: 'opsz' 144, 'SOFT' 100;
+    font-weight: 400;
+  }
+  .hero-name .dot { color: var(--coral); }
+  .hero-tagline {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: clamp(20px, 2.4vw, 28px);
+    line-height: 1.45;
+    color: var(--ink-2);
+    margin-top: 38px;
+    max-width: 640px;
+    font-variation-settings: 'opsz' 36, 'SOFT' 100;
+    font-weight: 400;
+  }
+  .hero-cta {
+    display: flex; gap: 14px;
+    margin-top: 44px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 17px 24px;
+    text-decoration: none;
+    border: 1px solid var(--line-strong);
+    background: transparent;
+    color: var(--ink);
+    transition: all 0.2s;
+    display: inline-flex; align-items: center; gap: 10px;
+  }
+  .btn:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .btn-primary {
+    background: var(--coral); border-color: var(--coral); color: var(--bg);
+    font-weight: 500;
+  }
+  .btn-primary:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+  /* Terminal */
+  .terminal {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font-family: var(--mono);
+    font-size: 13px;
+    transform: translateY(-30px);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255, 107, 74, 0.04);
+  }
+  .terminal-bar {
+    display: flex; align-items: center; gap: 7px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  .terminal-dot { width: 11px; height: 11px; border-radius: 50%; }
+  .terminal-dot.r { background: #ff5f57; }
+  .terminal-dot.y { background: #febc2e; }
+  .terminal-dot.g { background: #28c840; }
+  .terminal-title {
+    margin-left: auto;
+    color: var(--ink-3);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+  }
+  .terminal-body { padding: 24px 24px 26px; line-height: 1.75; }
+  .terminal-body .prompt { color: var(--aqua); user-select: none; }
+  .terminal-body .cmd { color: var(--ink); }
+  .terminal-body .out {
+    display: block;
+    color: var(--ink-2);
+    padding: 2px 0 14px 0;
+    word-break: break-word;
+  }
+  .cursor {
+    display: inline-block;
+    width: 9px; height: 14px;
+    background: var(--coral);
+    vertical-align: -2px;
+    animation: blink 1s steps(2) infinite;
+    margin-left: 4px;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* ---------- Marquee ---------- */
+  .marquee {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 24px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    background: var(--bg-elev);
+  }
+  .marquee-track {
+    display: inline-block;
+    animation: scroll 50s linear infinite;
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 22px;
+    color: var(--ink-2);
+    font-weight: 400;
+    font-variation-settings: 'opsz' 36, 'SOFT' 100;
+    will-change: transform;
+  }
+  .marquee-track .sep { color: var(--coral); margin: 0 24px; font-style: normal; }
+  @keyframes scroll {
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(-50%, 0, 0); }
+  }
+
+  /* ---------- About ---------- */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.55fr 1fr;
+    gap: 90px;
+    align-items: start;
+  }
+  .about-text p {
+    font-family: var(--display);
+    font-size: clamp(20px, 2vw, 24px);
+    line-height: 1.55;
+    margin-bottom: 26px;
+    color: var(--ink);
+    font-weight: 400;
+    font-variation-settings: 'opsz' 30, 'SOFT' 80;
+  }
+  .about-text p:last-child { margin-bottom: 0; }
+  .about-text em { color: var(--coral); font-style: italic; font-variation-settings: 'opsz' 30, 'SOFT' 100; }
+
+  .facts {
+    border-top: 1px solid var(--line-strong);
+    margin-top: 8px;
+  }
+  .fact {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 14px;
+    align-items: baseline;
+    gap: 16px;
+  }
+  .fact-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .fact-val { color: var(--ink); line-height: 1.4; }
+
+  /* ---------- Work ---------- */
+  .constellation-wrap {
+    position: relative;
+    height: 540px;
+    background: #050403;
+    border: 1px solid var(--line);
+    margin-bottom: 80px;
+    overflow: hidden;
+    cursor: grab;
+  }
+  .constellation-wrap.dragging { cursor: grabbing; }
+  .constellation-canvas { width: 100%; height: 100%; display: block; }
+  .constellation-label {
+    position: absolute;
+    top: 18px; left: 22px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--ink-3);
+    pointer-events: none;
+  }
+  .constellation-label .br { color: var(--coral); }
+  .constellation-hint {
+    position: absolute;
+    bottom: 18px; right: 22px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+  .node-labels {
+    position: absolute; inset: 0;
+    pointer-events: none;
+  }
+  .node-label {
+    position: absolute;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    color: var(--ink-2);
+    transform: translate(-50%, -180%);
+    white-space: nowrap;
+    transition: opacity 0.2s;
+  }
+
+  .projects {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+  .project {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    padding: 36px;
+    position: relative;
+    transition: border-color 0.3s;
+    overflow: hidden;
+  }
+  .project::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 0;
+    height: 2px; width: 0;
+    background: linear-gradient(to right, var(--coral), var(--gold));
+    transition: width 0.6s ease;
+  }
+  .project:hover::after { width: 100%; }
+  .project:hover { border-color: var(--line-strong); }
+  .project-meta {
+    display: flex; justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    margin-bottom: 30px;
+  }
+  .project-status {
+    color: var(--aqua);
+    display: inline-flex; align-items: center; gap: 7px;
+  }
+  .project-status::before {
+    content: '';
+    width: 7px; height: 7px;
+    background: var(--aqua); border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  .project-title {
+    font-family: var(--display);
+    font-size: clamp(36px, 4.4vw, 56px);
+    font-weight: 500;
+    line-height: 1.05;
+    margin-bottom: 24px;
+    letter-spacing: -0.025em;
+    font-variation-settings: 'opsz' 60, 'SOFT' 50;
+  }
+  .project-title em {
+    color: var(--coral);
+    font-style: italic;
+    font-variation-settings: 'opsz' 60, 'SOFT' 100;
+    font-weight: 400;
+  }
+  .project-desc {
+    color: var(--ink-2);
+    margin-bottom: 28px;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .project-stack { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 7px 11px;
+    border: 1px solid var(--line-strong);
+    color: var(--ink-2);
+    letter-spacing: 0.04em;
+  }
+
+  /* ---------- Services ---------- */
+  .services-list { border-top: 1px solid var(--line-strong); }
+  .service-row {
+    display: grid;
+    grid-template-columns: 60px 290px 1fr 130px;
+    gap: 32px;
+    padding: 36px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: baseline;
+    transition: padding-left 0.3s, border-color 0.3s;
+  }
+  .service-row:hover {
+    padding-left: 14px;
+    border-bottom-color: var(--coral);
+  }
+  .service-num {
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--coral);
+    letter-spacing: 0.05em;
+  }
+  .service-name {
+    font-family: var(--display);
+    font-size: clamp(24px, 2.5vw, 30px);
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    font-variation-settings: 'opsz' 40, 'SOFT' 70;
+  }
+  .service-desc {
+    color: var(--ink-2);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .service-rate {
+    font-family: var(--mono);
+    font-size: 13px;
+    text-align: right;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+  }
+
+  /* ---------- GitHub ---------- */
+  .gh-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-bottom: 64px;
+  }
+  .gh-card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    padding: 30px 28px;
+    transition: border-color 0.25s;
+  }
+  .gh-card:hover { border-color: var(--line-strong); }
+  .gh-num {
+    font-family: var(--display);
+    font-size: clamp(40px, 5vw, 64px);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-variation-settings: 'opsz' 90, 'SOFT' 50;
+  }
+  .gh-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    margin-top: 14px;
+  }
+  .gh-repos { border-top: 1px solid var(--line); }
+  .gh-repo {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 20px;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: start;
+  }
+  .gh-repo a {
+    font-family: var(--mono);
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 15px;
+    letter-spacing: -0.005em;
+    transition: color 0.2s;
+  }
+  .gh-repo a::before { content: '→ '; color: var(--coral); }
+  .gh-repo a:hover { color: var(--coral); }
+  .gh-repo .desc {
+    color: var(--ink-2);
+    font-size: 13px;
+    margin-top: 5px;
+    line-height: 1.5;
+    max-width: 600px;
+  }
+  .gh-repo .lang-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+  }
+  .lang-dot {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: var(--aqua);
+  }
+
+  /* ---------- Contact ---------- */
+  .contact-headline {
+    font-family: var(--display);
+    font-size: clamp(48px, 8.5vw, 110px);
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    margin-bottom: 80px;
+    font-weight: 500;
+    font-variation-settings: 'opsz' 144, 'SOFT' 60;
+    max-width: 1100px;
+  }
+  .contact-headline em {
+    color: var(--coral);
+    font-style: italic;
+    font-variation-settings: 'opsz' 144, 'SOFT' 100;
+    font-weight: 400;
+  }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+  }
+  .contact-info p {
+    font-family: var(--display);
+    font-size: clamp(18px, 1.7vw, 22px);
+    font-style: italic;
+    color: var(--ink-2);
+    line-height: 1.55;
+    margin-bottom: 44px;
+    font-variation-settings: 'opsz' 36, 'SOFT' 80;
+  }
+  .contact-direct { border-top: 1px solid var(--line-strong); }
+  .contact-row {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 15px;
+    align-items: baseline;
+    gap: 16px;
+  }
+  .contact-row .label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--ink-3);
+    text-transform: uppercase;
+  }
+  .contact-row a, .contact-row .val {
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .contact-row a {
+    border-bottom: 1px solid var(--line-strong);
+    padding-bottom: 1px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .contact-row a:hover { color: var(--coral); border-color: var(--coral); }
+
+  .contact-form { display: flex; flex-direction: column; gap: 26px; }
+  .form-field label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .contact-form input, .contact-form textarea {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--line-strong);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 16px;
+    padding: 12px 0;
+    width: 100%;
+    outline: none;
+    resize: vertical;
+    transition: border-color 0.2s;
+  }
+  .contact-form input:focus, .contact-form textarea:focus { border-color: var(--coral); }
+  .contact-form textarea { min-height: 130px; }
+  .form-submit {
+    align-self: flex-start;
+    margin-top: 12px;
+  }
+  .form-success {
+    display: none;
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 24px;
+    color: var(--aqua);
+    line-height: 1.4;
+    font-variation-settings: 'opsz' 36, 'SOFT' 100;
+  }
+  .contact-form.sent .form-fields { display: none; }
+  .contact-form.sent .form-success { display: block; }
+  .form-fields { display: contents; }
+
+  /* ---------- Footer ---------- */
+  .footer {
+    border-top: 1px solid var(--line);
+    padding: 36px 0;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-3);
+    letter-spacing: 0.06em;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+    align-items: center;
+  }
+  .footer-grid > div:nth-child(2) { text-align: center; }
+  .footer-grid > div:nth-child(3) { text-align: right; }
+  .footer-grid .lang-toggle { display: inline-flex; }
+
+  /* ---------- Chat widget ---------- */
+  .chat-btn {
+    position: fixed;
+    bottom: 26px; right: 26px;
+    z-index: 90;
+    background: var(--bg);
+    color: var(--ink);
+    border: 1px solid var(--ink);
+    padding: 14px 22px;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 11px;
+    transition: all 0.25s;
+    box-shadow: 0 14px 36px rgba(0,0,0,0.5);
+  }
+  .chat-btn:hover {
+    background: var(--aqua); color: var(--bg); border-color: var(--aqua);
+  }
+  .chat-btn .dot {
+    width: 7px; height: 7px;
+    background: var(--coral); border-radius: 50%;
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+
+  .chat-panel {
+    position: fixed;
+    bottom: 96px; right: 26px;
+    width: 420px;
+    max-width: calc(100vw - 52px);
+    height: 600px;
+    max-height: calc(100vh - 130px);
+    background: var(--bg-elev);
+    border: 1px solid var(--line-strong);
+    z-index: 91;
+    display: none;
+    flex-direction: column;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.65);
+    overflow: hidden;
+  }
+  .chat-panel.open { display: flex; animation: panelIn 0.25s ease-out; }
+  @keyframes panelIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: none; }
+  }
+  .chat-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; gap: 14px;
+    flex-shrink: 0;
+  }
+  .chat-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--coral), var(--gold));
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 19px;
+    color: var(--bg);
+  }
+  .chat-title { display: flex; flex-direction: column; }
+  .chat-name { font-family: var(--mono); font-size: 13px; color: var(--ink); letter-spacing: 0.02em; }
+  .chat-sub {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--ink-3);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 3px;
+  }
+  .chat-close {
+    margin-left: auto;
+    background: none; border: none;
+    color: var(--ink-2);
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 4px 8px;
+    transition: color 0.2s;
+  }
+  .chat-close:hover { color: var(--coral); }
+  .chat-msgs {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+  .msg {
+    padding: 12px 14px;
+    max-width: 85%;
+  }
+  .msg.bot {
+    background: var(--bg-card);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    align-self: flex-start;
+    border-radius: 2px 12px 12px 12px;
+  }
+  .msg.user {
+    background: var(--coral);
+    color: var(--bg);
+    align-self: flex-end;
+    font-weight: 500;
+    border-radius: 12px 2px 12px 12px;
+  }
+  .chat-suggest {
+    padding: 0 20px 14px;
+    display: flex; flex-wrap: wrap; gap: 8px;
+    flex-shrink: 0;
+  }
+  .suggest-btn {
+    background: transparent;
+    border: 1px solid var(--line-strong);
+    color: var(--ink-2);
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.03em;
+  }
+  .suggest-btn:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .chat-input {
+    display: flex; gap: 8px;
+    padding: 16px 20px;
+    border-top: 1px solid var(--line);
+    flex-shrink: 0;
+  }
+  .chat-input input {
+    flex: 1;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    padding: 12px 14px;
+    font-family: var(--body);
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .chat-input input:focus { border-color: var(--coral); }
+  .chat-input button {
+    background: var(--ink);
+    color: var(--bg);
+    border: none;
+    padding: 0 18px;
+    font-family: var(--mono);
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .chat-input button:hover { background: var(--coral); }
+
+  /* ---------- Reveal ---------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.85s ease-out, transform 0.85s ease-out;
+  }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 980px) {
+    .hero { padding: 130px 0 80px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 50px; align-items: start; }
+    .terminal { transform: none; max-width: 520px; }
+    .about-grid { grid-template-columns: 1fr; gap: 60px; }
+    .projects { grid-template-columns: 1fr; }
+    .constellation-wrap { height: 420px; }
+    .service-row {
+      grid-template-columns: 32px 1fr;
+      gap: 14px;
+      padding: 28px 0;
+    }
+    .service-row .service-desc,
+    .service-row .service-rate {
+      grid-column: 1 / -1;
+      padding-left: 46px;
+      margin-top: 10px;
+    }
+    .service-row .service-rate { text-align: left; color: var(--coral); }
+    .gh-stats { grid-template-columns: 1fr 1fr; gap: 16px; }
+    .gh-num { font-size: 44px; }
+    .contact-grid { grid-template-columns: 1fr; gap: 70px; }
+    .footer-grid { grid-template-columns: 1fr; gap: 14px; }
+    .footer-grid > div { text-align: center !important; }
+  }
+  @media (max-width: 640px) {
+    .nav { padding: 14px 20px; }
+    .nav.scrolled { padding: 10px 20px; }
+    .nav-links { gap: 18px; font-size: 11px; }
+    .wrap { padding: 0 20px; }
+    .section { padding: 90px 0; }
+    .section-title { margin-bottom: 50px; }
+    .hero { padding: 120px 0 70px; }
+    .hero-status { font-size: 10px; margin-bottom: 28px; }
+    .hero-tagline { margin-top: 28px; }
+    .hero-cta { gap: 10px; margin-top: 32px; }
+    .btn { padding: 14px 18px; font-size: 11px; }
+    .terminal-body { padding: 18px 18px 22px; font-size: 12px; }
+    .marquee-track { font-size: 18px; }
+    .project { padding: 28px 24px; }
+    .gh-card { padding: 22px 20px; }
+    .chat-panel {
+      right: 12px; bottom: 84px;
+      width: calc(100vw - 24px);
+      height: 75vh;
+    }
+    .chat-btn { right: 16px; bottom: 16px; padding: 12px 16px; font-size: 11px; letter-spacing: 0.1em; }
+  }
+
+  /* JP-specific tweaks (avoid italic-look distortion on CJK) */
+  body.lang-jp .hero-name .last {
+    font-style: normal;
+    font-variation-settings: 'opsz' 144, 'SOFT' 100;
+  }
+  body.lang-jp .section-title em,
+  body.lang-jp .contact-headline em,
+  body.lang-jp .project-title em,
+  body.lang-jp .about-text em {
+    font-style: normal;
+  }
+  body.lang-jp .hero-tagline,
+  body.lang-jp .about-text p,
+  body.lang-jp .project-desc,
+  body.lang-jp .contact-info p,
+  body.lang-jp .marquee-track,
+  body.lang-jp .form-success {
+    font-style: normal;
+  }
+  body.lang-jp .about-text p,
+  body.lang-jp .hero-tagline,
+  body.lang-jp .contact-info p {
+    font-family: var(--body);
+    font-weight: 400;
+  }
+  body.lang-jp .marquee-track { font-family: var(--display); }
+
+  /* Print-friendly basics */
+  @media print { .chat-btn, .chat-panel, .blobs, .noise, .marquee { display: none; } body { background: #fff; color: #000; } }
+</style>
+</head>
+<body class="lang-en">
+
+<div class="noise"></div>
+<div class="blobs">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="blob blob-4"></div>
+</div>
+
+<nav class="nav" id="nav">
+  <a href="#" class="nav-brand">KISHIN<span class="slash">/</span>SUEMATSU</a>
+  <div class="nav-links">
+    <a href="#work" data-en="Work" data-jp="案件">Work</a>
+    <a href="#contact" data-en="Contact" data-jp="連絡">Contact</a>
+    <div class="lang-toggle" role="group" aria-label="Language">
+      <button data-set-lang="en" class="active" aria-label="English">EN</button>
+      <span class="lang-sep">|</span>
+      <button data-set-lang="jp" aria-label="Japanese">JP</button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero wrap">
+  <div class="hero-grid">
+    <div>
+      <div class="hero-status">
+        <span class="status-dot"></span>
+        <span data-en="AVAILABLE FOR FREELANCE WORK · OKINAWA, JAPAN" data-jp="フリーランス案件受付中・沖縄拠点">AVAILABLE FOR FREELANCE WORK · OKINAWA, JAPAN</span>
+      </div>
+      <h1 class="hero-name">
+        <span data-en="Kishin" data-jp="末松">Kishin</span><br>
+        <span class="last" data-en="Suematsu" data-jp="己信">Suematsu</span><span class="dot">.</span>
+      </h1>
+      <p class="hero-tagline" data-en="I build quietly reliable systems — automation, AI integrations, and the small machines that run businesses while no one is watching." data-jp="静かに動き続けるシステムを作っています。業務自動化、AI連携、誰も見ていない時間に黙々と仕事をこなす小さな機械たちを。">I build quietly reliable systems — automation, AI integrations, and the small machines that run businesses while no one is watching.</p>
+      <div class="hero-cta">
+        <a href="#work" class="btn btn-primary"><span data-en="See the work" data-jp="案件を見る">See the work</span> <span aria-hidden="true">→</span></a>
+        <button class="btn" id="askAgent" type="button" data-en="Ask my AI agent" data-jp="AIエージェントに聞く">Ask my AI agent</button>
+      </div>
+    </div>
+    <aside class="terminal" aria-label="Terminal preview">
+      <div class="terminal-bar">
+        <span class="terminal-dot r"></span>
+        <span class="terminal-dot y"></span>
+        <span class="terminal-dot g"></span>
+        <span class="terminal-title">~/kishin — bash</span>
+      </div>
+      <div class="terminal-body">
+        <div><span class="prompt">$</span> <span class="cmd">whoami</span></div>
+        <span class="out" data-en="freelance engineer · bilingual jp/en" data-jp="フリーランスエンジニア · 日英バイリンガル">freelance engineer · bilingual jp/en</span>
+        <div><span class="prompt">$</span> <span class="cmd">stack</span></div>
+        <span class="out">python · playwright · claude / gpt apis</span>
+        <div><span class="prompt">$</span> <span class="cmd">shipped</span></div>
+        <span class="out" data-en="2 production systems · running 24/7" data-jp="本番運用システム2件 · 24時間稼働中">2 production systems · running 24/7</span>
+        <div><span class="prompt">$</span> <span class="cmd">studied</span></div>
+        <span class="out" data-en="cs · santa monica college (honors '24)" data-jp="cs · santa monica college (成績優秀者 '24)">cs · santa monica college (honors '24)</span>
+        <div><span class="prompt">$</span> <span class="cmd">status</span></div>
+        <div><span class="cmd" data-en="accepting briefs" data-jp="案件受付中">accepting briefs</span><span class="cursor"></span></div>
+      </div>
+    </aside>
+  </div>
+</header>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track" id="marqueeTrack"></div>
+</div>
+
+<main>
+
+  <section class="section reveal" id="about">
+    <div class="wrap">
+      <div class="section-num">// 01 — ABOUT</div>
+      <h2 class="section-title" data-en="A builder, more than a <em>coder.</em>" data-jp="コーダーというより、<em>つくる人。</em>">A builder, more than a <em>coder.</em></h2>
+      <div class="about-grid">
+        <div class="about-text">
+          <p data-en="Born in Okinawa. Studied Computer Science at Santa Monica College in Los Angeles and graduated with <em>honors</em> in 2024. Got accepted to Cal Poly Pomona for transfer — and turned it down to ship real systems for real clients instead." data-jp="沖縄生まれ。米国Santa Monica Collegeでコンピュータサイエンスを学び、2024年に<em>成績優秀者</em>として卒業。Cal Poly Pomonaへの編入合格を辞退し、実際のクライアントのために実際のシステムを作る道を選びました。">Born in Okinawa. Studied Computer Science at Santa Monica College in Los Angeles and graduated with <em>honors</em> in 2024. Got accepted to Cal Poly Pomona for transfer — and turned it down to ship real systems for real clients instead.</p>
+          <p data-en="Today I run two production systems: <em>Tock君</em>, a LINE bot for a Japanese restaurant in Los Angeles, and <em>ToiToi_shift</em>, an auto-scheduler for a welfare facility in Japan. Both are still on retainer. Both still ship every day." data-jp="現在、2つの本番システムを運用中。<em>Tock君</em>（LAの日本食レストラン向けLINE Bot）と、<em>ToiToi_shift</em>（国内福祉施設向けシフト自動作成システム）。両方とも保守契約継続中。両方とも今日も動いています。">Today I run two production systems: <em>Tock君</em>, a LINE bot for a Japanese restaurant in Los Angeles, and <em>ToiToi_shift</em>, an auto-scheduler for a welfare facility in Japan. Both are still on retainer. Both still ship every day.</p>
+          <p data-en="I write code in English and ask questions in Japanese. Three years of teaching CS to American undergraduates means I can take a brief in either language and ship it without anything getting <em>lost in translation.</em>" data-jp="コードは英語で書き、要件は日本語で聞きます。米国の大学でアメリカ人学生に3年以上CSを教えた経験から、日英どちらの言語でも要件を捌き、<em>行間を落とさず</em>に納品できます。">I write code in English and ask questions in Japanese. Three years of teaching CS to American undergraduates means I can take a brief in either language and ship it without anything getting <em>lost in translation.</em></p>
         </div>
-        
-        <div id="home" class="container-fluid">
-            <div class="element-container align-items-center m-5 row">
-                <div class="col-1"></div>
-                <div class="my-name col-5">
-                    <h1 class="">KISHIN</h1>
-                    <h1 class="">SUEMATSU</h1>
-                </div>
-                <div class="occupation col-4 ">
-                    <h3>web developer</h3>
-                    <span></span>
-                </div>
-            </div>
-            <div class="col-2"></div>
+        <aside class="facts">
+          <div class="fact"><span class="fact-label">Base</span><span class="fact-val" data-en="Okinawa, JP — fully remote" data-jp="沖縄県 — フルリモート対応">Okinawa, JP — fully remote</span></div>
+          <div class="fact"><span class="fact-label">Languages</span><span class="fact-val" data-en="JP native · EN business" data-jp="日本語ネイティブ · 英語ビジネス">JP native · EN business</span></div>
+          <div class="fact"><span class="fact-label">Education</span><span class="fact-val" data-en="SMC CS · Honors '24" data-jp="SMC CS · 優等卒 '24">SMC CS · Honors '24</span></div>
+          <div class="fact"><span class="fact-label">Stack</span><span class="fact-val">Python · Playwright · AI APIs</span></div>
+          <div class="fact"><span class="fact-label">Cloud</span><span class="fact-val">AWS · Lambda · DynamoDB</span></div>
+          <div class="fact"><span class="fact-label">Rate</span><span class="fact-val" data-en="¥3,000+/hr · project-based OK" data-jp="時給¥3,000〜 · 案件単位もOK">¥3,000+/hr · project-based OK</span></div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal" id="work">
+    <div class="wrap">
+      <div class="section-num">// 02 — SHIPPED</div>
+      <h2 class="section-title" data-en="Two systems, <em>still running.</em>" data-jp="2つのシステム、<em>今も稼働中。</em>">Two systems, <em>still running.</em></h2>
+
+      <div class="constellation-wrap" id="constellation">
+        <canvas class="constellation-canvas" id="constellationCanvas" aria-label="3D skill constellation"></canvas>
+        <div class="node-labels" id="nodeLabels"></div>
+        <div class="constellation-label">[ skill_constellation<span class="br">.gl</span> ]</div>
+        <div class="constellation-hint" data-en="drag to rotate" data-jp="ドラッグで回転">drag to rotate</div>
+      </div>
+
+      <div class="projects">
+        <article class="project">
+          <div class="project-meta">
+            <span>Project 01 / 2025—</span>
+            <span class="project-status" data-en="LIVE" data-jp="稼働中">LIVE</span>
+          </div>
+          <h3 class="project-title">Tock<em>君</em></h3>
+          <p class="project-desc" data-en="A LINE bot built from scratch as a startup member at a Japanese restaurant in Los Angeles. Handles reservation flow, notifications, and confirmations. Maintained remotely from Okinawa, still in daily production." data-jp="LAの日本食レストランのスタートアップメンバーとして、ゼロから設計・開発したLINE Bot。予約フロー・通知・確認を捌き、沖縄からリモートで保守を継続中。">A LINE bot built from scratch as a startup member at a Japanese restaurant in Los Angeles. Handles reservation flow, notifications, and confirmations. Maintained remotely from Okinawa, still in daily production.</p>
+          <div class="project-stack">
+            <span class="tag">Python</span>
+            <span class="tag">LINE Messaging API</span>
+            <span class="tag">AWS Lambda</span>
+            <span class="tag">DynamoDB</span>
+            <span class="tag">Webhooks</span>
+          </div>
+        </article>
+
+        <article class="project">
+          <div class="project-meta">
+            <span>Project 02 / 2026</span>
+            <span class="project-status" data-en="MAINTAINED" data-jp="保守中">MAINTAINED</span>
+          </div>
+          <h3 class="project-title">ToiToi<em>_shift</em></h3>
+          <p class="project-desc" data-en="Auto-scheduling system for a welfare facility. Solves staff preferences, legal constraints, and shift coverage with a constraint solver and an AI layer for the messy edge cases." data-jp="介護福祉施設向けのシフト自動作成システム。職員の希望・法定制約・カバレッジを制約充足で解き、曖昧な例外はAIで処理。">Auto-scheduling system for a welfare facility. Solves staff preferences, legal constraints, and shift coverage with a constraint solver and an AI layer for the messy edge cases.</p>
+          <div class="project-stack">
+            <span class="tag">Python</span>
+            <span class="tag">Playwright</span>
+            <span class="tag">Claude API</span>
+            <span class="tag">Constraint solving</span>
+            <span class="tag">Excel I/O</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal" id="services">
+    <div class="wrap">
+      <div class="section-num" data-en="// 03 — WHAT I CAN BUILD FOR YOU" data-jp="// 03 — 作れるもの">// 03 — WHAT I CAN BUILD FOR YOU</div>
+      <h2 class="section-title" data-en="Three things I do <em>very well.</em>" data-jp="<em>得意</em>なのは3つ。">Three things I do <em>very well.</em></h2>
+      <div class="services-list">
+        <div class="service-row">
+          <div class="service-num">01</div>
+          <div class="service-name" data-en="Business Automation" data-jp="業務自動化">Business Automation</div>
+          <div class="service-desc" data-en="Python and Playwright pipelines. Scraping, Excel/Sheets sync, scheduled jobs, the messy automation VBA can't handle." data-jp="Python・Playwrightによる業務自動化。スクレイピング、Excel・スプレッドシート連携、定期実行ジョブ、VBAでは難しい複雑な自動化。">Python and Playwright pipelines. Scraping, Excel/Sheets sync, scheduled jobs, the messy automation VBA can't handle.</div>
+          <div class="service-rate">¥5,000+</div>
         </div>
-
-        <div id="about_me">
-            <div class="title text-center">About Me</div>
-            <div class="row">
-                <div class="description col-6 align-items-center">
-                    <h4>I’m KISHIN, a graduate student at Santa Monica College pursuing a Associate degree in Computer Science.</h4>
-                    <p>I work on projects involving Full Stack Web Development. I’ve previously worked at the College as a Computer Science Tutor, teaching HTML, CSS, JS, C, and High-Level Assembly language.
-                        <br><br>
-                        I’m also a beginner IOT(internet of thing) and AWS(Amazon Web Service).</p>
-                </div>
-                <div class="sns col-6 align-items-center">
-                    <ul>
-                    <a href="https://github.com/kishin-suematsu?tab=repositories">
-                            <li><i class='bx bxl-github'></i>GitHub</li>
-                        </a>
-                        <a href="https://www.linkedin.com/in/kishin-suematsu-88b2162ab/">
-                            <li><i class='bx bxl-linkedin-square'></i>LinkedIn</li>
-                        </a>
-                        <a href="https://www.instagram.com/ksnlab/">
-                            <li><i class='bx bxl-instagram-alt' ></i>Instagram</li>
-                        </a>
-                        <a href="https://docs.google.com/document/d/1rK0JGN1N0_7sbl2VdWEEohFdPEQoijGY1NQGLH6act8/edit?usp=sharing">
-                            <li><i class='bx bxs-file' ></i>Resume</li>
-                        </a>
-                    </ul>
-                </div>
-            </div>
+        <div class="service-row">
+          <div class="service-num">02</div>
+          <div class="service-name" data-en="AI-Embedded Tools" data-jp="AI組み込みツール">AI-Embedded Tools</div>
+          <div class="service-desc" data-en="Claude and GPT APIs wired into actual workflows. Bots, summarizers, classifiers, custom prompt design and ongoing tuning." data-jp="Claude・GPT APIを実際の業務フローに組み込み。Bot、要約・分類ツール、カスタムプロンプト設計と継続改善。">Claude and GPT APIs wired into actual workflows. Bots, summarizers, classifiers, custom prompt design and ongoing tuning.</div>
+          <div class="service-rate">¥10,000+</div>
         </div>
-
-        <div id="projects" class="container-fluid">
-            <div class="title text-end text-white">Projects</div>
-            <div class="project text-white row">
-                <div class="description text-start col-4">
-                    <p>
-                        I developed an English reading application designed to help learners read from start to finish. In some countries, people are taught to read from end to start, which is not efficient for learning English. This application presents students with an English sentence and multiple related questions. The sentence gradually disappears from the beginning, prompting users to read and understand it before it vanishes completely. Additionally, users can create their own accounts, and the software provides them with recommended questions based on their English proficiency level. As they improve, they can progress to more advanced questions.                    
-                    </p>
-                </div>
-                <div class="gif col-8">
-                    <a href="https://www.youtube.com/watch?v=Id0R-IruQTw">
-                        <iframe src="https://giphy.com/embed/7YjoxRlmB85T5G5PHD" width="480" height="260" frameborder="0" class="giphy-embed" allowfullscreen></iframe>
-                    </a>
-                    <div class="btn_container d-flex justify-content-center mt-2">
-                        <a href="https://github.com/kishin-suematsu/English_reading" class="btn bg-secondary" style="width: 200px;">jump to the GitHub</a>
-                    </div>
-                </div>
-            </div>
-    
-            <div class="project text-white row">
-                <div class="gif col-8">
-                    <a href="https://www.youtube.com/watch?v=Id0R-IruQTw">
-                        <iframe src="https://giphy.com/embed/eGCayFtUVGjZths1PG" width="480" height="260" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/eGCayFtUVGjZths1PG"></a></p>                    
-                    </a>
-                    <div class="btn_container d-flex justify-content-center mt-2">
-                        <a href="https://github.com/kishin-suematsu/English_reading" class="btn bg-secondary" style="width: 200px;">jump to the GitHub</a>
-                    </div>
-                </div>
-                <div class="description text-end col-4"> 
-                    <p> 
-                        This application creates drum sounds when you click the mouse or type on the keyboard using HTML, CSS, and JS. I added a special feature: whenever a user clicks or types to produce a sound, the corresponding alphabet image flashes and the sound is played. This functionality assists users in confirming which sound they've triggered.
-                    </p>
-                </div>
-            </div>
-
-            <div class="project text-white row">
-                <div class="description text-start col-4">
-                    <p>
-                        I've developed a game called Simon, which challenges memory and concentration. I utilized jQuery along with standard HTML, CSS, and JS to build this game. Once the user starts by typing a key, the game begins. In each round, one of four colored boxes flashes. The player must remember the sequence and click the exact sequence correctly each round. Making a mistake results in a game over message being displayed.                    
-                    </p>
-                </div>
-                <div class="gif col-8">
-                    <a href="https://www.youtube.com/watch?v=Id0R-IruQTw">
-                        <iframe src="https://giphy.com/embed/jR6a04qpsV2AZ9CoPD" width="480" height="260" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/jR6a04qpsV2AZ9CoPD"></a></p>                    
-                    </a>
-                    <div class="btn_container d-flex justify-content-center mt-2">
-                        <a href="https://github.com/kishin-suematsu/Simon/tree/main/Simon%20Game%20Challenge%20Starting%20Files" class="btn bg-secondary" style="width: 200px;">jump to the GitHub</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="project text-white row">
-                <div class="gif col-8">
-                    <a href="https://www.youtube.com/watch?v=Id0R-IruQTw">
-                        <iframe src="https://giphy.com/embed/unwLjfXju6kDYA8zxQ" width="480" height="306" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/unwLjfXju6kDYA8zxQ"></a></p>                    
-                    </a>
-                    <div class="btn_container d-flex justify-content-center mt-2">
-                        <a href="https://github.com/kishin-suematsu/English_reading" class="btn bg-secondary" style="width: 200px;">jump to the GitHub</a>
-                    </div>
-                </div>
-                <div class="description text-end col-4">
-                    <p>
-                        I created a website for practice purposes that is responsive to both phone and desktop screen sizes                    
-                    </p>
-                </div>
-            </div>
-
-            <div class="project text-white row">
-                <div class="description text-start col-4">
-                    <p>
-                        I developed a shift scheduling software that generates a graphical schedule based on employees' availability, status, and responsibilities from a database. This tool is particularly useful for creating monthly shifts and can also calculate salaries, overtime, and other related metrics. In the future, I plan to integrate an AI API to provide more efficient shift scheduling for users.               
-                    </p> 
-                </div>
-                <div class="gif col-8">
-                    <a href="https://www.youtube.com/watch?v=Id0R-IruQTw">
-                        <iframe src="https://giphy.com/embed/NJQ0OAkIb1FfHjMzik" width="480" height="260" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/NJQ0OAkIb1FfHjMzik"></a></p>                    
-                    </a>
-                    <div class="btn_container d-flex justify-content-center mt-2">
-                        <a href="https://github.com/kishin-suematsu/shift_scheduling" class="btn bg-secondary" style="width: 200px;">jump to the GitHub</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="project text-white row">
-                <div class="gif col-8">
-                    <a href="https://www.youtube.com/watch?v=Id0R-IruQTw">
-                        <iframe src="https://giphy.com/embed/1YuSkLjbmarF8b9M4p" width="480" height="288" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/1YuSkLjbmarF8b9M4p"></a></p>                
-                    </a>
-                    <div class="btn_container d-flex justify-content-center mt-2">
-                        <a href="https://github.com/kishin-suematsu/bmi" class="btn bg-secondary" style="width: 100px;">button</a>
-                    </div>
-                </div>
-                <div class="description text-end col-4">
-                    <p>
-                        I built a simple BMI calculator to practice writing server-side JavaScript.               
-                    </p>
-                </div>
-            </div>
-
-            <div class="project text-white row">
-                <div class="description text-start col-4">
-                    <p>
-                        I built an AI image generator using ChatGPT's API. Users type in a prompt, which the app sends to the API, and then it returns a image to the front-end.                    
-                    </p> 
-                </div>
-                <div class="gif col-8">
-                    <a href="https://www.youtube.com/watch?v=Id0R-IruQTw">
-                        <iframe src="https://giphy.com/embed/TGYPm5KXrbN1bktJRw" width="270" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/TGYPm5KXrbN1bktJRw"></a></p>                
-                    </a>
-                    <div class="btn_container d-flex justify-content-center mt-2">
-                        <a href="https://github.com/kishin-suematsu/image_genelator" class="btn bg-secondary" style="width: 200px;">jump to the GitHub</a>
-                    </div>
-                </div>
-            </div>
-
+        <div class="service-row">
+          <div class="service-num">03</div>
+          <div class="service-name" data-en="Browser RPA" data-jp="ブラウザRPA">Browser RPA</div>
+          <div class="service-desc" data-en="Login-required sites, dynamic web apps, form submissions across multiple platforms. Built with Playwright, designed to keep working." data-jp="ログイン必須サイト、動的Webアプリ、複数プラットフォームをまたぐフォーム送信。Playwrightで構築、動き続ける設計。">Login-required sites, dynamic web apps, form submissions across multiple platforms. Built with Playwright, designed to keep working.</div>
+          <div class="service-rate">¥8,000+</div>
         </div>
-        
-    <script src="main.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
-  </body>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal" id="github">
+    <div class="wrap">
+      <div class="section-num" data-en="// 04 — CODE IN THE WILD" data-jp="// 04 — 公開コード">// 04 — CODE IN THE WILD</div>
+      <h2 class="section-title" data-en="Live from <em>GitHub.</em>" data-jp="<em>GitHub</em>からライブで。">Live from <em>GitHub.</em></h2>
+      <div class="gh-stats">
+        <div class="gh-card"><div class="gh-num" id="gh-repos">—</div><div class="gh-label" data-en="Public repos" data-jp="公開リポジトリ">Public repos</div></div>
+        <div class="gh-card"><div class="gh-num" id="gh-followers">—</div><div class="gh-label" data-en="Followers" data-jp="フォロワー">Followers</div></div>
+        <div class="gh-card"><div class="gh-num" id="gh-stars">—</div><div class="gh-label" data-en="Stars earned" data-jp="獲得スター">Stars earned</div></div>
+        <div class="gh-card"><div class="gh-num" id="gh-age">—</div><div class="gh-label" data-en="Years on GitHub" data-jp="GitHub歴(年)">Years on GitHub</div></div>
+      </div>
+      <div class="gh-repos" id="gh-repo-list">
+        <div class="gh-repo"><div><a href="https://github.com/kishin-suematsu" target="_blank" rel="noopener noreferrer">github.com/kishin-suematsu</a><div class="desc" data-en="Loading recent activity…" data-jp="最近の活動を読み込み中…">Loading recent activity…</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal" id="contact">
+    <div class="wrap">
+      <div class="section-num" data-en="// 05 — LET'S WORK" data-jp="// 05 — 一緒に">// 05 — LET'S WORK</div>
+      <h1 class="contact-headline" data-en="Got a <em>messy problem?</em>" data-jp="<em>面倒な仕事</em>、ありますか？">Got a <em>messy problem?</em></h1>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <p data-en="If you have a process that's painful, repetitive, or stuck in a spreadsheet — that's exactly the kind of problem I like." data-jp="面倒で繰り返しが多くて、スプレッドシートの中で詰まっている。そういう問題こそ好物です。">If you have a process that's painful, repetitive, or stuck in a spreadsheet — that's exactly the kind of problem I like.</p>
+          <div class="contact-direct">
+            <div class="contact-row">
+              <span class="label">Email</span>
+              <a href="mailto:suematsu0987@gmail.com">suematsu0987@gmail.com</a>
+            </div>
+            <div class="contact-row">
+              <span class="label">GitHub</span>
+              <a href="https://github.com/kishin-suematsu" target="_blank" rel="noopener noreferrer">@kishin-suematsu</a>
+            </div>
+            <div class="contact-row">
+              <span class="label" data-en="Location" data-jp="拠点">Location</span>
+              <span class="val" data-en="Okinawa, Japan" data-jp="沖縄県">Okinawa, Japan</span>
+            </div>
+            <div class="contact-row">
+              <span class="label" data-en="Hours" data-jp="稼働">Hours</span>
+              <span class="val" data-en="Mon–Sun · 5+ days/week" data-jp="月〜日 · 週5日以上">Mon–Sun · 5+ days/week</span>
+            </div>
+          </div>
+        </div>
+        <form class="contact-form" id="contactForm" action="https://formspree.io/f/REPLACE_ME" method="POST" novalidate>
+          <div class="form-fields">
+            <div class="form-field">
+              <label for="cf-name" data-en="Name" data-jp="お名前">Name</label>
+              <input type="text" id="cf-name" name="name" required autocomplete="name">
+            </div>
+            <div class="form-field">
+              <label for="cf-email" data-en="Email" data-jp="メールアドレス">Email</label>
+              <input type="email" id="cf-email" name="email" required autocomplete="email">
+            </div>
+            <div class="form-field">
+              <label for="cf-msg" data-en="Message" data-jp="メッセージ">Message</label>
+              <textarea id="cf-msg" name="message" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary form-submit"><span data-en="Send" data-jp="送信">Send</span> <span aria-hidden="true">→</span></button>
+          </div>
+          <div class="form-success" data-en="Thanks. I'll get back to you within a day." data-jp="ありがとうございます。1日以内に返信します。">Thanks. I'll get back to you within a day.</div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>© <span id="year">2026</span> Kishin Suematsu</div>
+    <div data-en="Built with HTML, CSS, JS · No frameworks · No tracking" data-jp="HTML / CSS / JSで構築 · フレームワーク不使用 · トラッキングなし">Built with HTML, CSS, JS · No frameworks · No tracking</div>
+    <div>
+      <div class="lang-toggle">
+        <button data-set-lang="en" class="active" aria-label="English">EN</button>
+        <span class="lang-sep">|</span>
+        <button data-set-lang="jp" aria-label="Japanese">JP</button>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<button class="chat-btn" id="chatToggle" type="button" aria-label="Open AI agent">
+  <span class="dot"></span>
+  <span data-en="Ask my agent" data-jp="エージェントに聞く">Ask my agent</span>
+</button>
+
+<div class="chat-panel" id="chatPanel" role="dialog" aria-label="AI agent">
+  <div class="chat-header">
+    <div class="chat-avatar">K</div>
+    <div class="chat-title">
+      <div class="chat-name" data-en="Kishin's Agent" data-jp="末松のエージェント">Kishin's Agent</div>
+      <div class="chat-sub" data-en="AI · TRAINED ON HIS WORK" data-jp="AI · 経歴を学習済">AI · TRAINED ON HIS WORK</div>
+    </div>
+    <button class="chat-close" id="chatClose" type="button" aria-label="Close">×</button>
+  </div>
+  <div class="chat-msgs" id="chatMsgs">
+    <div class="msg bot" data-en="Hi, I'm Kishin's agent. Ask me anything about his work, skills, or availability." data-jp="こんにちは、末松己信のAIエージェントです。彼の仕事や経歴について何でも聞いてください。">Hi, I'm Kishin's agent. Ask me anything about his work, skills, or availability.</div>
+  </div>
+  <div class="chat-suggest">
+    <button class="suggest-btn" data-en="What does he build?" data-jp="何ができますか？">What does he build?</button>
+    <button class="suggest-btn" data-en="Is he available?" data-jp="今受付中？">Is he available?</button>
+    <button class="suggest-btn" data-en="Tell me about Tock君" data-jp="Tock君について">Tell me about Tock君</button>
+    <button class="suggest-btn" data-en="How do I hire him?" data-jp="依頼方法は？">How do I hire him?</button>
+  </div>
+  <form class="chat-input" id="chatForm">
+    <input type="text" id="chatInput" autocomplete="off" placeholder="Ask anything…" aria-label="Your question">
+    <button type="submit" aria-label="Send">→</button>
+  </form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  /* ---------- Lang toggle ---------- */
+  function setLang(lang) {
+    if (lang !== 'en' && lang !== 'jp') lang = 'en';
+    document.body.classList.remove('lang-en', 'lang-jp');
+    document.body.classList.add('lang-' + lang);
+    document.documentElement.lang = lang === 'jp' ? 'ja' : 'en';
+    document.querySelectorAll('[data-en][data-jp]').forEach(function (el) {
+      var html = el.dataset[lang];
+      if (html != null) el.innerHTML = html;
+    });
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.classList.toggle('active', b.dataset.setLang === lang);
+    });
+    try { localStorage.setItem('kishin-lang', lang); } catch (e) {}
+    updateChatPlaceholder(lang);
+  }
+  function updateChatPlaceholder(lang) {
+    var i = document.getElementById('chatInput');
+    if (i) i.placeholder = lang === 'jp' ? '何でも聞いてください…' : 'Ask anything…';
+  }
+  document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+    b.addEventListener('click', function () { setLang(b.dataset.setLang); });
+  });
+  var saved = (function () { try { return localStorage.getItem('kishin-lang'); } catch (e) { return null; } })();
+  setLang(saved || 'en');
+
+  /* ---------- Nav scroll ---------- */
+  var nav = document.getElementById('nav');
+  function onScroll() { nav.classList.toggle('scrolled', window.scrollY > 30); }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ---------- Reveal on scroll ---------- */
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
+    document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
+  }
+
+  /* ---------- Marquee ---------- */
+  var marqueeWords = ['Python','Playwright','Claude API','LINE Bot','AWS Lambda','Browser Automation','GPT API','Bilingual JP/EN','Excel VBA','Scraping','DynamoDB','Webhook','React','Constraint Solving','Prompt Engineering','Okinawa'];
+  var sep = '<span class="sep">※</span>';
+  var single = marqueeWords.map(function (w) { return '<span>' + w + '</span>'; }).join(sep) + sep;
+  document.getElementById('marqueeTrack').innerHTML = single + single;
+
+  /* ---------- Three.js Constellation ---------- */
+  (function constellation() {
+    var wrap = document.getElementById('constellation');
+    if (!wrap || typeof THREE === 'undefined') return;
+
+    var canvas = document.getElementById('constellationCanvas');
+    var labelsEl = document.getElementById('nodeLabels');
+
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(60, wrap.clientWidth / wrap.clientHeight, 0.1, 100);
+    camera.position.z = 6.5;
+
+    var renderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+    } catch (e) { return; }
+    renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+    renderer.setSize(wrap.clientWidth, wrap.clientHeight, false);
+    renderer.setClearColor(0x000000, 0);
+
+    var skills = ['Python','Playwright','Claude API','GPT API','LINE Bot','AWS Lambda','DynamoDB','React','Excel VBA','Assembly','SQL','Node.js'];
+    var nodes = [];
+    var sphereGeom = new THREE.SphereGeometry(0.13, 18, 18);
+    var sphereMat = new THREE.MeshBasicMaterial({ color: 0x7fffd4 });
+    var sphereCoral = new THREE.MeshBasicMaterial({ color: 0xff6b4a });
+
+    skills.forEach(function (skill, i) {
+      var phi = Math.acos(-1 + (2 * (i + 0.5)) / skills.length);
+      var theta = Math.sqrt(skills.length * Math.PI) * phi;
+      var r = 2.6;
+      var pos = new THREE.Vector3(
+        r * Math.cos(theta) * Math.sin(phi),
+        r * Math.sin(theta) * Math.sin(phi),
+        r * Math.cos(phi)
+      );
+      var mat = (i % 5 === 0) ? sphereCoral : sphereMat;
+      var mesh = new THREE.Mesh(sphereGeom, mat);
+      mesh.position.copy(pos);
+      scene.add(mesh);
+
+      var label = document.createElement('div');
+      label.className = 'node-label';
+      label.textContent = skill;
+      labelsEl.appendChild(label);
+      nodes.push({ mesh: mesh, label: label, pos: pos });
+    });
+
+    var lineMat = new THREE.LineBasicMaterial({ color: 0x7fffd4, transparent: true, opacity: 0.18 });
+    for (var i = 0; i < nodes.length; i++) {
+      for (var j = i + 1; j < nodes.length; j++) {
+        var d = nodes[i].pos.distanceTo(nodes[j].pos);
+        if (d < 3.0) {
+          var geom = new THREE.BufferGeometry().setFromPoints([nodes[i].pos, nodes[j].pos]);
+          scene.add(new THREE.Line(geom, lineMat));
+        }
+      }
+    }
+
+    var rotY = 0, rotX = 0.2;
+    var velY = 0, velX = 0;
+    var isDragging = false;
+    var lastX = 0, lastY = 0;
+
+    function down(e) {
+      isDragging = true;
+      wrap.classList.add('dragging');
+      var p = e.touches ? e.touches[0] : e;
+      lastX = p.clientX; lastY = p.clientY;
+      if (e.cancelable) e.preventDefault();
+    }
+    function move(e) {
+      if (!isDragging) return;
+      var p = e.touches ? e.touches[0] : e;
+      velY = (p.clientX - lastX) * 0.006;
+      velX = (p.clientY - lastY) * 0.006;
+      rotY += velY;
+      rotX += velX;
+      rotX = Math.max(-1.2, Math.min(1.2, rotX));
+      lastX = p.clientX; lastY = p.clientY;
+    }
+    function up() { isDragging = false; wrap.classList.remove('dragging'); }
+
+    canvas.addEventListener('mousedown', down);
+    canvas.addEventListener('touchstart', down, { passive: false });
+    window.addEventListener('mousemove', move);
+    window.addEventListener('touchmove', move, { passive: true });
+    window.addEventListener('mouseup', up);
+    window.addEventListener('touchend', up);
+    window.addEventListener('touchcancel', up);
+
+    var rendering = true;
+    function animate() {
+      if (!rendering) return;
+      requestAnimationFrame(animate);
+      if (!isDragging) {
+        rotY += 0.0016 + velY * 0.04;
+        rotX += velX * 0.04;
+        velY *= 0.94;
+        velX *= 0.94;
+      }
+      scene.rotation.y = rotY;
+      scene.rotation.x = rotX;
+
+      var w = wrap.clientWidth, h = wrap.clientHeight;
+      nodes.forEach(function (n) {
+        var v = n.pos.clone().applyMatrix4(scene.matrixWorld).project(camera);
+        var x = (v.x * 0.5 + 0.5) * w;
+        var y = (-v.y * 0.5 + 0.5) * h;
+        n.label.style.left = x + 'px';
+        n.label.style.top = y + 'px';
+        n.label.style.opacity = v.z < 1 ? Math.max(0.2, 0.95 - v.z * 0.5) : 0;
+      });
+      renderer.render(scene, camera);
+    }
+
+    function resize() {
+      var w = wrap.clientWidth, h = wrap.clientHeight;
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h, false);
+    }
+    window.addEventListener('resize', resize);
+
+    // Pause when out of view
+    if ('IntersectionObserver' in window) {
+      var visIO = new IntersectionObserver(function (es) {
+        es.forEach(function (e) {
+          if (e.isIntersecting && !rendering) { rendering = true; animate(); }
+          if (!e.isIntersecting) { rendering = false; }
+        });
+      }, { threshold: 0.05 });
+      visIO.observe(wrap);
+    }
+    animate();
+  })();
+
+  /* ---------- GitHub API ---------- */
+  (function github() {
+    var fallback = function (msg) {
+      ['gh-repos','gh-followers','gh-stars','gh-age'].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el && el.textContent === '—') el.textContent = '—';
+      });
+      var list = document.getElementById('gh-repo-list');
+      if (list) {
+        list.innerHTML = '<div class="gh-repo"><div><a href="https://github.com/kishin-suematsu" target="_blank" rel="noopener">github.com/kishin-suematsu</a><div class="desc">' + msg + '</div></div></div>';
+      }
+    };
+
+    fetch('https://api.github.com/users/kishin-suematsu')
+      .then(function (r) { if (!r.ok) throw new Error('user'); return r.json(); })
+      .then(function (u) {
+        document.getElementById('gh-repos').textContent = u.public_repos != null ? u.public_repos : '—';
+        document.getElementById('gh-followers').textContent = u.followers != null ? u.followers : '—';
+        var years = (Date.now() - new Date(u.created_at).getTime()) / (365.25 * 24 * 3600 * 1000);
+        document.getElementById('gh-age').textContent = years.toFixed(1);
+        return fetch('https://api.github.com/users/kishin-suematsu/repos?sort=updated&per_page=5');
+      })
+      .then(function (r) { if (!r.ok) throw new Error('repos'); return r.json(); })
+      .then(function (repos) {
+        if (!Array.isArray(repos)) throw new Error('shape');
+        var totalStars = repos.reduce(function (s, r) { return s + (r.stargazers_count || 0); }, 0);
+        document.getElementById('gh-stars').textContent = totalStars;
+
+        var html = repos.map(function (r) {
+          var desc = r.description ? '<div class="desc">' + escapeHtml(r.description) + '</div>' : '';
+          var lang = r.language ? '<span class="lang-dot"></span>' + escapeHtml(r.language) : '';
+          var star = r.stargazers_count ? ' · ★ ' + r.stargazers_count : '';
+          return '<div class="gh-repo"><div><a href="' + r.html_url + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(r.name) + '</a>' + desc + '</div><span class="lang-tag">' + lang + star + '</span></div>';
+        }).join('');
+        if (html) document.getElementById('gh-repo-list').innerHTML = html;
+      })
+      .catch(function () {
+        var lang = document.body.classList.contains('lang-jp') ? 'jp' : 'en';
+        fallback(lang === 'jp' ? 'GitHubの統計を読み込めませんでした。直接プロフィールをご覧ください。' : "Couldn't load GitHub stats — visit the profile directly.");
+      });
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, function (c) {
+        return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
+      });
+    }
+  })();
+
+  /* ---------- Contact form ---------- */
+  (function contact() {
+    var form = document.getElementById('contactForm');
+    if (!form) return;
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (form.action.indexOf('REPLACE_ME') !== -1) {
+        var lang = document.body.classList.contains('lang-jp') ? 'jp' : 'en';
+        alert(lang === 'jp'
+          ? 'Formspreeのエンドポイントが未設定です。index.htmlのフォームaction属性を更新してください。'
+          : 'Formspree endpoint not configured. Update the form action in index.html.');
+        return;
+      }
+      var btn = form.querySelector('button[type="submit"]');
+      if (btn) btn.disabled = true;
+      fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      })
+      .then(function (r) {
+        if (r.ok) { form.classList.add('sent'); form.reset(); }
+        else throw new Error('send');
+      })
+      .catch(function () {
+        alert('Network error. Please email suematsu0987@gmail.com directly.');
+      })
+      .finally(function () { if (btn) btn.disabled = false; });
+    });
+  })();
+
+  /* ---------- AI chat widget ---------- */
+  (function chat() {
+    var knowledge = [
+      {
+        keywords: ['build','do','work','service','offer','できる','作','仕事','サービス'],
+        en: "Kishin builds three things really well: business automation (Python + scraping), AI-embedded tools (Claude/GPT), and browser RPA with Playwright. Want details on any of those?",
+        jp: "Kishinが得意なのは3つです: 業務自動化（Python・スクレイピング）、AI組み込みツール（Claude/GPT API）、Playwrightによるブラウザ自動化。どれか詳しく聞きますか？"
+      },
+      {
+        keywords: ['available','availability','hire','rate','price','cost','料金','依頼','空き','価格','単価'],
+        en: "Yes — accepting briefs right now. Base rate is ¥3,000/hr or project-based. Email suematsu0987@gmail.com or use the contact form below.",
+        jp: "はい、現在案件受付中です。時給3,000円〜、案件ベースでも対応可。suematsu0987@gmail.com または下のフォームからどうぞ。"
+      },
+      {
+        keywords: ['tock','line','bot','restaurant','レストラン','飲食'],
+        en: "Tock君 is a LINE bot Kishin built as a startup member for a Japanese restaurant in LA. Handles reservation flow end-to-end, still in daily production. He maintains it remotely from Okinawa. Stack: Python, LINE Messaging API, AWS Lambda, DynamoDB.",
+        jp: "Tock君は、LAの日本食レストランのスタートアップメンバーとして開発したLINE Botです。予約フローを全部捌き、今も毎日稼働中。沖縄からリモートで保守継続中。Stack: Python / LINE API / AWS Lambda / DynamoDB。"
+      },
+      {
+        keywords: ['toitoi','shift','welfare','schedul','福祉','シフト','介護','スケジ'],
+        en: "ToiToi_shift is an auto-scheduling system Kishin delivered to a welfare facility in 2026. Combines a constraint solver with a Claude API layer for messy edge cases. Now on a maintenance retainer.",
+        jp: "ToiToi_shiftは2026年に福祉施設に納品したシフト自動作成システム。制約充足アルゴリズムにClaude APIを組み合わせて曖昧な例外も処理。現在は保守契約継続中。"
+      },
+      {
+        keywords: ['english','japanese','language','bilingual','英語','日本語','言語','バイリンガル'],
+        en: "Native Japanese, fluent business English. Kishin tutored CS in English at a US college for 3+ years — including to native speakers. Comfortable taking briefs in either language.",
+        jp: "日本語ネイティブ、英語ビジネスレベル。米国の大学でアメリカ人にも英語でCS技術指導を3年以上。どちらの言語でも案件対応可能。"
+      },
+      {
+        keywords: ['where','location','okinawa','japan','remote','沖縄','場所','拠点','リモート','どこ'],
+        en: "Based in Okinawa, Japan. Fully remote — works with clients globally. Spent ~3 years in Los Angeles, returned to Japan in April 2026.",
+        jp: "沖縄拠点。完全リモートで国内外の案件対応。2022〜2026年は米国ロサンゼルスに滞在。2026年4月に帰国。"
+      },
+      {
+        keywords: ['education','school','college','degree','university','学歴','大学','学校'],
+        en: "Associate Degree in Computer Science from Santa Monica College (2024, with honors). Also accepted to Cal Poly Pomona for transfer but declined to focus on real-world work.",
+        jp: "Santa Monica College（米国カリフォルニア）でコンピュータサイエンスのAssociate Degreeを成績優秀者として取得（2024年）。Cal Poly Pomonaへの編入も合格していましたが、実務優先で辞退。"
+      },
+      {
+        keywords: ['ai','claude','gpt','chatgpt','openai','anthropic','llm'],
+        en: "Yes — Kishin has built AI-embedded tools using both Claude and GPT APIs. Tock君 and ToiToi_shift both use AI layers in production. He handles prompt design, API integration, and ongoing tuning.",
+        jp: "はい、KishinはClaude APIとGPT APIの両方を使ったAI組み込みツールを実装しています。Tock君とToiToi_shiftの両方で本番のAI層を運用中。プロンプト設計から実装・継続改善まで対応します。"
+      },
+      {
+        keywords: ['python','playwright','automation','scraping','rpa','自動化','スクレイピング'],
+        en: "Python is Kishin's main language. He uses Playwright for browser automation, BeautifulSoup for scraping, and builds custom scripts for Excel/spreadsheet workflows. Strong on the messy automation that VBA can't handle.",
+        jp: "Pythonがメイン言語。Playwrightでブラウザ自動化、BeautifulSoupでスクレイピング、Excel・スプレッドシート連携の自動化に強いです。VBAでは難しい複雑な業務自動化が得意。"
+      },
+      {
+        keywords: ['contact','email','reach','message','連絡','メール','問い合わせ'],
+        en: "Easiest: email suematsu0987@gmail.com. Or scroll down to the contact form. He usually replies within a day.",
+        jp: "一番早いのは suematsu0987@gmail.com にメール。もしくは下の問い合わせフォームから。通常1日以内に返信します。"
+      },
+      {
+        keywords: ['aws','cloud','lambda','dynamodb','s3'],
+        en: "AWS is part of his daily stack — Lambda, DynamoDB, S3, EC2, IAM, CloudWatch, Rekognition, Route 53. Tock君 runs on Lambda + DynamoDB. He's comfortable architecting serverless from scratch.",
+        jp: "AWSは日常の一部。Lambda, DynamoDB, S3, EC2, IAM, CloudWatch, Rekognition, Route 53を使用。Tock君はLambda + DynamoDB上で動いており、サーバーレス構成をゼロから設計可能。"
+      },
+      {
+        keywords: ['team','solo','agency','one','チーム','一人'],
+        en: "Solo for now — Kishin runs a one-person freelance shop. He owns the work end-to-end: requirements, build, deploy, run.",
+        jp: "現在は一人体制。要件定義から設計・実装・運用まで全部一人で完結させるフリーランスです。"
+      },
+      {
+        keywords: ['hello','hi','hey','こんにちは','はじめまして','よろしく'],
+        en: "Hi! I'm an AI agent trained on Kishin's resume and projects. Ask me anything — what he builds, his rates, or how to start a brief.",
+        jp: "こんにちは！末松己信の経歴とプロジェクトを学習したAIエージェントです。仕事内容・料金・依頼の流れなど何でも聞いてください。"
+      }
+    ];
+
+    function findReply(text, lang) {
+      var t = text.toLowerCase();
+      for (var i = 0; i < knowledge.length; i++) {
+        var k = knowledge[i];
+        for (var j = 0; j < k.keywords.length; j++) {
+          if (t.indexOf(k.keywords[j].toLowerCase()) !== -1) {
+            return lang === 'jp' ? k.jp : k.en;
+          }
+        }
+      }
+      return lang === 'jp'
+        ? '良い答えが浮かびませんでした。下のフォームから直接Kishinに聞いてみてください。'
+        : "I don't have a great answer for that — but Kishin probably does. Try the contact form below.";
+    }
+
+    var panel = document.getElementById('chatPanel');
+    var msgs = document.getElementById('chatMsgs');
+    var input = document.getElementById('chatInput');
+    var formEl = document.getElementById('chatForm');
+
+    function open() {
+      panel.classList.add('open');
+      setTimeout(function () { input && input.focus(); }, 100);
+    }
+    function close() { panel.classList.remove('open'); }
+
+    document.getElementById('chatToggle').addEventListener('click', function () {
+      panel.classList.contains('open') ? close() : open();
+    });
+    document.getElementById('askAgent').addEventListener('click', open);
+    document.getElementById('chatClose').addEventListener('click', close);
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && panel.classList.contains('open')) close();
+    });
+
+    function addMsg(text, who) {
+      var el = document.createElement('div');
+      el.className = 'msg ' + who;
+      el.textContent = text;
+      msgs.appendChild(el);
+      msgs.scrollTop = msgs.scrollHeight;
+    }
+
+    function ask(text) {
+      if (!text) return;
+      addMsg(text, 'user');
+      var lang = document.body.classList.contains('lang-jp') ? 'jp' : 'en';
+      setTimeout(function () { addMsg(findReply(text, lang), 'bot'); }, 380);
+    }
+
+    formEl.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var v = input.value.trim();
+      if (!v) return;
+      ask(v);
+      input.value = '';
+    });
+
+    document.querySelectorAll('.suggest-btn').forEach(function (b) {
+      b.addEventListener('click', function () { ask(b.textContent); });
+    });
+  })();
+
+  /* ---------- Year ---------- */
+  var y = document.getElementById('year');
+  if (y) y.textContent = new Date().getFullYear();
+})();
+</script>
+</body>
 </html>
