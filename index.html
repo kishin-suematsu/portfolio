@@ -1224,7 +1224,7 @@
           <div class="fact"><span class="fact-label">Languages</span><span class="fact-val" data-en="JP native · EN business" data-jp="日本語ネイティブ · 英語ビジネス">JP native · EN business</span></div>
           <div class="fact"><span class="fact-label">Education</span><span class="fact-val" data-en="SMC CS · Honors '24" data-jp="SMC CS · 優等卒 '24">SMC CS · Honors '24</span></div>
           <div class="fact"><span class="fact-label">Stack</span><span class="fact-val">Python · Playwright · AI APIs</span></div>
-          <div class="fact"><span class="fact-label">Cloud</span><span class="fact-val">AWS · Lambda · DynamoDB</span></div>
+          <div class="fact"><span class="fact-label">Infra</span><span class="fact-val">Docker · GitHub Actions · GAS</span></div>
           <div class="fact"><span class="fact-label">Rate</span><span class="fact-val" data-en="¥3,000+/hr · project-based OK" data-jp="時給¥3,000〜 · 案件単位もOK">¥3,000+/hr · project-based OK</span></div>
         </aside>
       </div>
@@ -1234,7 +1234,7 @@
   <section class="section reveal" id="work">
     <div class="wrap">
       <div class="section-num">// 02 — SHIPPED</div>
-      <h2 class="section-title" data-en="Two systems, <em>still running.</em>" data-jp="2つのシステム、<em>今も稼働中。</em>">Two systems, <em>still running.</em></h2>
+      <h2 class="section-title" data-en="Systems I've shipped &amp; <em>built.</em>" data-jp="つくって、<em>動かしてきたもの。</em>">Systems I've shipped &amp; <em>built.</em></h2>
 
       <div class="constellation-wrap" id="constellation">
         <canvas class="constellation-canvas" id="constellationCanvas" aria-label="3D skill constellation"></canvas>
@@ -1244,7 +1244,7 @@
       </div>
 
       <div class="projects">
-        <article class="project">
+        <article class="project" id="work-tock">
           <div class="project-meta">
             <span>Project 01 / 2025—</span>
             <span class="project-status" data-en="LIVE" data-jp="稼働中">LIVE</span>
@@ -1252,15 +1252,14 @@
           <h3 class="project-title">Tock<em>君</em></h3>
           <p class="project-desc" data-en="A LINE bot that moved a Los Angeles restaurant's entire reservation, reminder, and confirmation flow off the phones — built from scratch as a startup member. Cuts floor-staff phone load and reduces no-shows via auto-reminders. Live since July 2025, maintained remotely from Okinawa." data-jp="LA日本食レストランの予約・通知・確認をLINEで完結させる自社Bot。スタートアップメンバーとしてゼロから設計・開発し、ホールスタッフの電話対応工数を削減、無断キャンセルも自動リマインドで減少。2025年7月稼働開始、沖縄からリモート保守継続中。">LA日本食レストランの予約・通知・確認をLINEで完結させる自社Bot。スタートアップメンバーとしてゼロから設計・開発し、ホールスタッフの電話対応工数を削減、無断キャンセルも自動リマインドで減少。2025年7月稼働開始、沖縄からリモート保守継続中。</p>
           <div class="project-stack">
-            <span class="tag">Python</span>
+            <span class="tag">Google Apps Script</span>
             <span class="tag">LINE Messaging API</span>
-            <span class="tag">AWS Lambda</span>
-            <span class="tag">DynamoDB</span>
-            <span class="tag">Webhooks</span>
+            <span class="tag">Gmail</span>
+            <span class="tag">Google Sheets</span>
           </div>
         </article>
 
-        <article class="project">
+        <article class="project" id="work-toitoi">
           <div class="project-meta">
             <span>Project 02 / 2026</span>
             <span class="project-status" data-en="MAINTAINED" data-jp="保守中">MAINTAINED</span>
@@ -1274,6 +1273,23 @@
             <span class="tag">Constraint solving</span>
             <span class="tag">Excel I/O</span>
           </div>
+        </article>
+
+        <article class="project" id="work-orb">
+          <div class="project-meta">
+            <span>Project 03 / 2026</span>
+            <span class="project-status" data-en="OPEN SOURCE" data-jp="個人開発 / OSS">OPEN SOURCE</span>
+          </div>
+          <h3 class="project-title">orb<em>-trade-assistant</em></h3>
+          <p class="project-desc" data-en="A real-time Opening Range Breakout (ORB) signal dashboard for US equities — streams signals over WebSocket with a pluggable data feed (sim / Finnhub / Alpaca) and a backtest harness. Manual-confirm fills by design: a signal tool, not an auto-trader." data-jp="米国株のORB（オープニングレンジ・ブレイクアウト）戦略のシグナルをリアルタイム検出するダッシュボード。WebSocket配信＋差し替え可能なデータフィード（sim / Finnhub / Alpaca）＋バックテスト機能。自動売買はせず「シグナル＋手動約定」とし、誤発注リスクを排除する設計。">米国株のORB（オープニングレンジ・ブレイクアウト）戦略のシグナルをリアルタイム検出するダッシュボード。WebSocket配信＋差し替え可能なデータフィード（sim / Finnhub / Alpaca）＋バックテスト機能。自動売買はせず「シグナル＋手動約定」とし、誤発注リスクを排除する設計。</p>
+          <div class="project-stack">
+            <span class="tag">Python</span>
+            <span class="tag">FastAPI</span>
+            <span class="tag">WebSocket</span>
+            <span class="tag">asyncio</span>
+            <span class="tag">pytest</span>
+          </div>
+          <a class="project-gh" href="https://github.com/kishin-suematsu/orb-trade-assistant" target="_blank" rel="noopener" style="display:inline-block; margin-top:14px; color:var(--coral); text-decoration:none; font-weight:500; font-size:0.9rem;" data-en="View on GitHub →" data-jp="GitHubで見る →">View on GitHub →</a>
         </article>
       </div>
     </div>
