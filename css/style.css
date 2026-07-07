@@ -316,6 +316,8 @@ h2{
   color:var(--mint); text-decoration:none;
   transition:color .25s, transform .25s, text-shadow .25s;
 }
+.proj-cta + .proj-cta{ margin-left:22px; }
+.proj-title-en{ font-size:12px; color:var(--muted); font-weight:400; letter-spacing:.2em; margin-left:12px; vertical-align:middle; }
 .proj-cta:hover{ color:var(--violet); transform:translateX(4px); text-shadow:0 0 14px rgba(180,140,255,.5); }
 
 /* ============ Stack ============ */
