@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>クロウ君 広告動画 30s / 1920x1080</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { width:1920px; height:1080px; overflow:hidden; background:#0E1526; }
+  body { font-family:"IPAPGothic","IPAGothic",sans-serif; }
+  #stage { position:relative; width:1920px; height:1080px; overflow:hidden; }
+  .scene { position:absolute; inset:0; visibility:hidden; }
+
+  /* ---------- shared type helpers ---------- */
+  .b1 { -webkit-text-stroke:1.5px currentColor; }   /* faux medium */
+  .b2 { -webkit-text-stroke:3px currentColor; }     /* faux bold   */
+  .b3 { -webkit-text-stroke:5px currentColor; }     /* faux heavy  */
+  .center { position:absolute; left:0; right:0; text-align:center; }
+
+  /* ---------- S1 : hook (night) ---------- */
+  #s1 { background:radial-gradient(1400px 900px at 72% 18%, #1B2A4A 0%, #101A33 45%, #0B1222 100%); }
+  #s1 .moon { position:absolute; right:200px; top:110px; width:150px; height:150px; border-radius:50%;
+    background:radial-gradient(circle at 38% 35%, #FFF7E0, #F4E3B0 60%, #E8D08F);
+    box-shadow:0 0 90px 30px rgba(244,227,176,.25); }
+  #s1 .clock { position:absolute; right:196px; top:300px; font-size:44px; color:#8FA3C8; letter-spacing:6px;
+    font-family:"IPAGothic",monospace; }
+  .paper { position:absolute; width:230px; height:160px; border-radius:6px; background:#F7F4EC;
+    box-shadow:0 18px 40px rgba(0,0,0,.45); padding:18px 16px; }
+  .paper .pline { height:10px; border-radius:5px; background:#C9CBD4; margin:12px 8px; }
+  .paper .ptitle { height:16px; width:60%; border-radius:5px; background:#E4646E; margin:2px 8px 16px; }
+  #s1 .h { color:#F2F5FB; font-size:96px; line-height:1.45; letter-spacing:2px; }
+  #s1 .h .em { color:#FFC966; }
+  #s1 .sub { color:#8FA3C8; font-size:40px; letter-spacing:10px; }
+
+  /* ---------- S2 : pain (tags pile) ---------- */
+  #s2 { background:radial-gradient(1400px 900px at 50% 25%, #182642 0%, #0F1830 55%, #0A101F 100%); }
+  #s2 .h { color:#F2F5FB; font-size:104px; letter-spacing:4px; }
+  #s2 .sub { color:#8FA3C8; font-size:42px; letter-spacing:6px; }
+  .tag { position:absolute; padding:22px 42px; border-radius:60px; font-size:42px; letter-spacing:2px;
+    color:#FFEFEF; background:#3A2438; border:3px solid #B25A6C; white-space:nowrap;
+    box-shadow:0 14px 34px rgba(0,0,0,.5); }
+  .tag.cold { color:#EAF2FF; background:#20304E; border-color:#5A7AB2; }
+  .tag.warn { color:#FFF6E3; background:#4A3A20; border-color:#C9A052; }
+
+  /* ---------- S3 : reveal (dawn + crow + logo) ---------- */
+  #s3 { background:linear-gradient(180deg,#FFF9EE 0%, #FFEFD4 55%, #FFE2B8 100%); }
+  #s3 .sunburst { position:absolute; left:50%; top:46%; width:2600px; height:2600px; transform:translate(-50%,-50%);
+    background:conic-gradient(from 0deg, rgba(255,201,102,.16) 0deg 10deg, rgba(255,201,102,0) 10deg 30deg,
+      rgba(255,201,102,.16) 30deg 40deg, rgba(255,201,102,0) 40deg 60deg, rgba(255,201,102,.16) 60deg 70deg,
+      rgba(255,201,102,0) 70deg 90deg, rgba(255,201,102,.16) 90deg 100deg, rgba(255,201,102,0) 100deg 120deg,
+      rgba(255,201,102,.16) 120deg 130deg, rgba(255,201,102,0) 130deg 150deg, rgba(255,201,102,.16) 150deg 160deg,
+      rgba(255,201,102,0) 160deg 180deg, rgba(255,201,102,.16) 180deg 190deg, rgba(255,201,102,0) 190deg 210deg,
+      rgba(255,201,102,.16) 210deg 220deg, rgba(255,201,102,0) 220deg 240deg, rgba(255,201,102,.16) 240deg 250deg,
+      rgba(255,201,102,0) 250deg 270deg, rgba(255,201,102,.16) 270deg 280deg, rgba(255,201,102,0) 280deg 300deg,
+      rgba(255,201,102,.16) 300deg 310deg, rgba(255,201,102,0) 310deg 330deg, rgba(255,201,102,.16) 330deg 340deg,
+      rgba(255,201,102,0) 340deg 360deg);
+    border-radius:50%; }
+  #s3 .logo { color:#2A2E3A; font-size:190px; letter-spacing:8px; }
+  #s3 .logosub { color:#8A6A2F; font-size:52px; letter-spacing:16px; }
+  #s3 .crowbox { position:absolute; left:50%; top:190px; width:340px; height:340px; margin-left:-170px; }
+
+  /* ---------- S4 : how (grid autofill) ---------- */
+  #s4 { background:linear-gradient(180deg,#FDFBF6 0%, #F5F0E4 100%); }
+  #s4 .h { color:#2A2E3A; font-size:84px; letter-spacing:3px; }
+  #s4 .sub { color:#6B6F7C; font-size:40px; letter-spacing:3px; }
+  #s4 .gridwrap { position:absolute; left:50%; top:300px; transform:translateX(-50%);
+    background:#FFFFFF; border-radius:24px; box-shadow:0 30px 70px rgba(42,46,58,.14); padding:34px 40px; }
+  #s4 table { border-collapse:separate; border-spacing:10px; }
+  #s4 th { font-size:30px; color:#8A8E9A; font-weight:normal; padding:0 4px 6px; letter-spacing:2px; white-space:nowrap; }
+  #s4 td.name { font-size:32px; color:#4A4E5A; padding-right:18px; white-space:nowrap; letter-spacing:2px; }
+  #s4 td.cell { width:86px; height:66px; border-radius:12px; background:#EFECE3; text-align:center;
+    font-size:34px; color:#fff; position:relative; }
+  #s4 td.cell span { position:relative; top:1px; }
+  .chip { position:absolute; padding:18px 36px; border-radius:50px; font-size:38px; letter-spacing:2px;
+    color:#fff; box-shadow:0 12px 30px rgba(42,46,58,.25); white-space:nowrap; }
+
+  /* ---------- S5 : benefit (days -> minutes) ---------- */
+  #s5 { background:radial-gradient(1300px 900px at 50% 40%, #2E3B5E 0%, #1A2338 60%, #121A2C 100%); }
+  #s5 .old { color:#7C89A8; font-size:150px; letter-spacing:8px; position:relative; display:inline-block; }
+  #s5 .strike { position:absolute; left:-4%; top:52%; height:14px; width:108%; background:#E4646E; border-radius:7px;
+    transform-origin:left center; }
+  #s5 .arrow { color:#FFC966; font-size:120px; display:inline-block; margin:0 60px; }
+  #s5 .new { color:#FFC966; font-size:260px; letter-spacing:6px; display:inline-block;
+    text-shadow:0 0 80px rgba(255,201,102,.35); }
+  #s5 .row { position:absolute; left:0; right:0; top:330px; text-align:center; white-space:nowrap; }
+  #s5 .sub { color:#C6D2E8; font-size:46px; letter-spacing:6px; }
+  #s5 .note { color:#8FA3C8; font-size:34px; letter-spacing:4px; }
+
+  /* ---------- S6 : CTA ---------- */
+  #s6 { background:linear-gradient(180deg,#FFF9EE 0%, #FBEFD9 100%); }
+  #s6 .logo { color:#2A2E3A; font-size:150px; letter-spacing:8px; }
+  #s6 .logosub { color:#8A6A2F; font-size:44px; letter-spacing:12px; }
+  #s6 .url { display:inline-block; font-family:"IPAGothic",monospace; font-size:56px; letter-spacing:3px;
+    color:#FFF9EE; background:#2A2E3A; padding:26px 64px; border-radius:60px;
+    box-shadow:0 18px 44px rgba(42,46,58,.3); }
+  #s6 .cta { color:#6B5A32; font-size:42px; letter-spacing:8px; }
+  #s6 .crowbox { position:absolute; left:50%; top:120px; width:260px; height:260px; margin-left:-130px; }
+
+  .vignette { position:absolute; inset:0; pointer-events:none;
+    background:radial-gradient(1600px 1000px at 50% 50%, rgba(0,0,0,0) 62%, rgba(0,0,0,.28) 100%); }
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <!-- ================= S1 : HOOK ================= -->
+  <section class="scene" id="s1">
+    <div class="moon"></div>
+    <div class="clock" id="s1clock">23:47</div>
+    <div id="s1papers"></div>
+    <div class="center h b2" id="s1l1" style="top:330px">毎月のシフト作成に、</div>
+    <div class="center h b2" id="s1l2" style="top:480px">まだ<span class="em b1">何日も</span>かけていますか？</div>
+    <div class="center sub" id="s1sub" style="top:680px">介護・福祉の現場のみなさまへ</div>
+    <div class="vignette"></div>
+  </section>
+
+  <!-- ================= S2 : PAIN ================= -->
+  <section class="scene" id="s2">
+    <div class="center h b2" id="s2h" style="top:150px">考えることが、多すぎる。</div>
+    <div id="s2tags"></div>
+    <div class="vignette"></div>
+  </section>
+
+  <!-- ================= S3 : REVEAL ================= -->
+  <section class="scene" id="s3">
+    <div class="sunburst" id="s3burst"></div>
+    <div class="crowbox" id="s3crow"></div>
+    <div class="center logo b3" id="s3logo" style="top:530px">クロウ君</div>
+    <div class="center logosub b1" id="s3sub" style="top:790px">AI シフト自動作成システム</div>
+  </section>
+
+  <!-- ================= S4 : HOW ================= -->
+  <section class="scene" id="s4">
+    <div class="center h b2" id="s4h" style="top:110px">ボタンひとつで、最適なシフト。</div>
+    <div class="gridwrap" id="s4grid"></div>
+    <div id="s4chips"></div>
+    <div class="center sub" id="s4sub" style="top:950px">職員の希望・法定ルール・必要人数をAIがまとめて調整</div>
+  </section>
+
+  <!-- ================= S5 : BENEFIT ================= -->
+  <section class="scene" id="s5">
+    <div class="row">
+      <span class="old b2" id="s5old">数日<span class="strike" id="s5strike"></span></span><!--
+      --><span class="arrow b2" id="s5arrow">→</span><!--
+      --><span class="new b3" id="s5new">数分。</span>
+    </div>
+    <div class="center sub b1" id="s5sub" style="top:730px">シフト作成にかかる時間を、劇的に短縮</div>
+    <div class="center note" id="s5note" style="top:830px">介護福祉施設で実際に稼働中のシステムです</div>
+    <div class="vignette"></div>
+  </section>
+
+  <!-- ================= S6 : CTA ================= -->
+  <section class="scene" id="s6">
+    <div class="crowbox" id="s6crow"></div>
+    <div class="center logo b3" id="s6logo" style="top:400px">クロウ君</div>
+    <div class="center logosub b1" id="s6sub" style="top:590px">AI シフト自動作成システム</div>
+    <div class="center" id="s6url" style="top:720px"><span class="url">crow-shift.okii-lab.com</span></div>
+    <div class="center cta b1" id="s6cta" style="top:900px">デモのご依頼、受付中です</div>
+  </section>
+
+</div>
+
+<script>
+/* ============================================================
+   deterministic timeline — everything derives from t (ms)
+   window.__seek(t) renders the exact frame for time t
+   ============================================================ */
+
+const DUR = { s1:[0,5000], s2:[5000,10000], s3:[10000,14500], s4:[14500,21000], s5:[21000,25500], s6:[25500,30000] };
+const TOTAL = 30000;
+
+/* ---------- easing ---------- */
+const clamp01 = x => Math.max(0, Math.min(1, x));
+const P  = (t,a,b) => clamp01((t-a)/(b-a));                    // linear progress within [a,b]
+const eoC = x => 1 - Math.pow(1-x,3);                          // easeOutCubic
+const eiC = x => x*x*x;
+const eio = x => x<.5 ? 4*x*x*x : 1 - Math.pow(-2*x+2,3)/2;
+const eoB = x => { const c=1.70158, d=c+1; return 1 + d*Math.pow(x-1,3) + c*Math.pow(x-1,2); }; // easeOutBack
+/* deterministic pseudo-random */
+const rnd = (seed) => { const x = Math.sin(seed*127.1+311.7)*43758.5453; return x - Math.floor(x); };
+
+/* ---------- crow mascot SVG ---------- */
+function crowSVG(id){
+  return `
+  <svg viewBox="0 0 200 200" width="100%" height="100%">
+    <g id="${id}-g">
+      <!-- tail -->
+      <path d="M52 128 L18 150 L48 108 Z" fill="#23262E"/>
+      <!-- body -->
+      <ellipse cx="104" cy="112" rx="62" ry="56" fill="#2E323E"/>
+      <!-- belly -->
+      <ellipse cx="112" cy="130" rx="38" ry="30" fill="#454B5A"/>
+      <!-- head -->
+      <circle cx="118" cy="70" r="44" fill="#2E323E"/>
+      <!-- ahoge feather -->
+      <path d="M112 28 Q116 10 130 12 Q120 20 122 30 Z" fill="#23262E"/>
+      <!-- eye -->
+      <circle cx="132" cy="66" r="17" fill="#FFFFFF"/>
+      <circle cx="136" cy="68" r="9"  fill="#1A1D24"/>
+      <circle cx="139" cy="64" r="3.4" fill="#FFFFFF"/>
+      <!-- beak -->
+      <path d="M158 74 L186 82 L158 92 Q152 84 158 74 Z" fill="#F5A623"/>
+      <!-- wing -->
+      <path id="${id}-wing" d="M92 96 Q56 104 52 134 Q80 136 100 122 Q106 108 92 96 Z" fill="#23262E"/>
+      <!-- feet -->
+      <path d="M88 164 l0 16 m-7 -4 l7 4 l7 -4" stroke="#F5A623" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <path d="M120 164 l0 16 m-7 -4 l7 4 l7 -4" stroke="#F5A623" stroke-width="6" fill="none" stroke-linecap="round"/>
+    </g>
+  </svg>`;
+}
+document.getElementById('s3crow').innerHTML = crowSVG('c3');
+document.getElementById('s6crow').innerHTML = crowSVG('c6');
+
+/* ---------- S1 papers ---------- */
+const s1papers = [];
+(function(){
+  const host = document.getElementById('s1papers');
+  for (let i=0;i<6;i++){
+    const p = document.createElement('div');
+    p.className = 'paper';
+    p.innerHTML = '<div class="ptitle"></div><div class="pline"></div><div class="pline" style="width:80%"></div><div class="pline" style="width:65%"></div>';
+    host.appendChild(p);
+    s1papers.push(p);
+  }
+})();
+
+/* ---------- S2 tags ---------- */
+const S2TAGS = [
+  { txt:'希望休が重なった…',      cls:'',     x:330,  y:340, r:-6 },
+  { txt:'夜勤明けの連勤はNG',     cls:'cold', x:1050, y:320, r:4  },
+  { txt:'人員配置基準を満たす?',  cls:'warn', x:620,  y:470, r:-3 },
+  { txt:'急な欠勤の穴埋め',       cls:'',     x:1180, y:500, r:6  },
+  { txt:'新人さんはペア必須',     cls:'cold', x:300,  y:620, r:5  },
+  { txt:'夜勤は月◯回まで',       cls:'warn', x:880,  y:640, r:-5 },
+  { txt:'不公平って言われた…',    cls:'',     x:540,  y:790, r:3  },
+  { txt:'連休の希望も叶えたい',   cls:'cold', x:1120, y:800, r:-4 },
+];
+const s2tagEls = S2TAGS.map(d => {
+  const e = document.createElement('div');
+  e.className = 'tag ' + d.cls;
+  e.textContent = d.txt;
+  document.getElementById('s2tags').appendChild(e);
+  return e;
+});
+
+/* ---------- S4 shift grid ---------- */
+const DAYS = ['1','2','3','4','5','6','7','8','9','10'];
+const STAFF = ['佐藤','田中','鈴木','高橋','伊藤','渡辺'];
+const SHIFT_KIND = [
+  { k:'早', c:'#5A9BD5' }, { k:'日', c:'#6FBF73' }, { k:'遅', c:'#E8A64C' },
+  { k:'夜', c:'#7A6FBF' }, { k:'休', c:'#C9CBD4' },
+];
+/* deterministic plausible roster */
+const ROSTER = STAFF.map((_,si) => DAYS.map((_,di) => {
+  const v = rnd(si*31 + di*7 + 3);
+  if (v < .16) return 4;               // 休
+  if (v < .36) return 0;
+  if (v < .60) return 1;
+  if (v < .82) return 2;
+  return 3;
+}));
+/* 夜勤の翌日は必ず休みにする（現場ルールに沿った見た目に） */
+ROSTER.forEach(row => { for (let d=1; d<row.length; d++) if (row[d-1]===3 && row[d]!==4) row[d]=4; });
+const s4cells = [];
+(function(){
+  const host = document.getElementById('s4grid');
+  let html = '<table><tr><th></th>' + DAYS.map(d=>`<th>${d}日</th>`).join('') + '</tr>';
+  STAFF.forEach((s,si) => {
+    html += `<tr><td class="name b1">${s}</td>` + DAYS.map((_,di)=>`<td class="cell" id="c${si}_${di}"><span class="b1"></span></td>`).join('') + '</tr>';
+  });
+  host.innerHTML = html + '</table>';
+  STAFF.forEach((s,si)=>DAYS.forEach((_,di)=>s4cells.push({ el:document.getElementById(`c${si}_${di}`), si, di })));
+})();
+
+/* ---------- S4 chips ---------- */
+const S4CHIPS = [
+  { txt:'職員の希望', c:'#5A9BD5', x0:200,  y0:1160 },
+  { txt:'法定ルール', c:'#B25A6C', x0:830,  y0:1200 },
+  { txt:'必要人数',   c:'#6FBF73', x0:1460, y0:1160 },
+];
+const s4chipEls = S4CHIPS.map(d => {
+  const e = document.createElement('div');
+  e.className = 'chip b1';
+  e.style.background = d.c;
+  e.textContent = d.txt;
+  document.getElementById('s4chips').appendChild(e);
+  return e;
+});
+
+/* ============================================================
+   per-scene renderers  (lt = local time ms)
+   ============================================================ */
+const $ = id => document.getElementById(id);
+
+function fadeUp(el, p, dist=60){
+  el.style.opacity = p;
+  el.style.transform = `translateY(${(1-p)*dist}px)`;
+}
+
+function renderS1(lt){
+  /* clock ticks forward through the night */
+  const mins = Math.floor(P(lt,0,5000)*260);
+  const hh = (23 + Math.floor((47+mins)/60)) % 24, mm = (47+mins) % 60;
+  $('s1clock').textContent = String(hh).padStart(2,'0') + ':' + String(mm).padStart(2,'0');
+
+  fadeUp($('s1l1'), eoC(P(lt,300,1100)));
+  fadeUp($('s1l2'), eoC(P(lt,1000,1800)));
+  fadeUp($('s1sub'), eoC(P(lt,1900,2600)), 30);
+
+  /* drifting papers */
+  s1papers.forEach((p,i)=>{
+    const seed=i+1, dx=rnd(seed)*1500+100, sway=Math.sin(lt/900 + seed*2.1)*30;
+    const fall = ((lt*(.028+.012*rnd(seed+9)) + rnd(seed+5)*1400) % 1500) - 200;
+    const op = P(lt,200+i*150,700+i*150);
+    p.style.opacity = .16*op;
+    p.style.transform = `translate(${dx+sway}px, ${fall}px) rotate(${Math.sin(lt/1200+seed)*14}deg)`;
+  });
+}
+
+function renderS2(lt){
+  s2tagEls.forEach((e,i)=>{
+    const d=S2TAGS[i], t0=200+i*360, p=eoB(P(lt,t0,t0+520));
+    const wob = Math.sin(lt/650 + i*1.7) * 2.2;
+    e.style.opacity = Math.min(1, p*1.4);
+    e.style.transform = `translate(${d.x}px,${d.y}px) rotate(${d.r+wob}deg) scale(${.4+.6*p})`;
+  });
+  /* headline slams in after tags pile up */
+  const hp = eoB(P(lt,3400,3950));
+  const sh = P(lt,3400,3520);                       /* tiny camera shake on impact */
+  const shx = sh>0&&sh<1 ? Math.sin(lt*1.1)*6*(1-sh) : 0;
+  $('s2h').style.opacity = hp;
+  $('s2h').style.transform = `translate(${shx}px,0) scale(${.6+.4*hp})`;
+  /* dim the pile while headline shows */
+  $('s2tags').style.opacity = 1 - .55*P(lt,3400,3900);
+}
+
+function renderS3(lt){
+  $('s3burst').style.transform = `translate(-50%,-50%) rotate(${lt*.006}deg)`;
+  $('s3burst').style.opacity = eoC(P(lt,300,1200));
+
+  /* crow flies in from left, settles, bobs */
+  const fly = eoC(P(lt,200,1400));
+  const bob = fly>=1 ? Math.sin(lt/420)*10 : 0;
+  const cx = -500 + fly*500, cy = -Math.sin(fly*Math.PI)*160 + bob;
+  $('s3crow').style.transform = `translate(${cx}px,${cy}px) rotate(${(1-fly)*-12}deg)`;
+  $('s3crow').style.opacity = Math.min(1, fly*2);
+  /* wing flap while flying */
+  const wing3 = document.getElementById('c3-wing');
+  if (wing3) wing3.setAttribute('transform', fly<1 ? `rotate(${Math.sin(lt/70)*26} 92 100)` : 'rotate(0 92 100)');
+
+  const lp = eoB(P(lt,1300,2100));
+  $('s3logo').style.opacity = lp;
+  $('s3logo').style.transform = `scale(${.5+.5*lp})`;
+  fadeUp($('s3sub'), eoC(P(lt,2100,2800)), 40);
+}
+
+function renderS4(lt){
+  fadeUp($('s4h'), eoC(P(lt,200,900)));
+
+  /* chips fly from bottom into the grid, then vanish */
+  s4chipEls.forEach((e,i)=>{
+    const d=S4CHIPS[i], t0=600+i*260;
+    const p=eio(P(lt,t0,t0+900));
+    const tx = d.x0 + (960-140 - d.x0)*p, ty = d.y0 + (560 - d.y0)*p;
+    e.style.opacity = p<1 ? Math.min(1,p*3) : 0;
+    e.style.transform = `translate(${tx}px,${ty}px) scale(${1-.45*p})`;
+  });
+
+  /* grid pops in */
+  const gp = eoC(P(lt,100,800));
+  $('s4grid').style.opacity = gp;
+  $('s4grid').style.transform = `translateX(-50%) translateY(${(1-gp)*80}px)`;
+
+  /* cells fill in a fast diagonal cascade after chips arrive */
+  s4cells.forEach(({el,si,di})=>{
+    const t0 = 2300 + (si+di)*110 + rnd(si*13+di*3)*80;
+    const p = eoB(P(lt,t0,t0+330));
+    const kind = SHIFT_KIND[ROSTER[si][di]];
+    if (p<=0){ el.style.background='#EFECE3'; el.firstChild.textContent=''; }
+    else {
+      el.style.background = kind.c;
+      el.firstChild.textContent = kind.k;
+      el.style.transform = `scale(${.5+.5*p})`;
+      el.style.opacity = Math.min(1,p*2);
+    }
+  });
+
+  fadeUp($('s4sub'), eoC(P(lt,4600,5300)), 30);
+}
+
+function renderS5(lt){
+  const op = eoC(P(lt,200,800));
+  $('s5old').style.opacity = op;
+  $('s5old').style.transform = `translateY(${(1-op)*40}px)`;
+  $('s5strike').style.transform = `scaleX(${eoC(P(lt,900,1400))})`;
+  const ap = eoC(P(lt,1300,1800));
+  $('s5arrow').style.opacity = ap;
+  $('s5arrow').style.transform = `translateX(${(1-ap)*-40}px)`;
+  const np = eoB(P(lt,1700,2400));
+  $('s5new').style.opacity = np;
+  $('s5new').style.transform = `scale(${.3+.7*np})`;
+  fadeUp($('s5sub'), eoC(P(lt,2600,3300)), 40);
+  fadeUp($('s5note'), eoC(P(lt,3100,3800)), 30);
+}
+
+function renderS6(lt){
+  /* crow drops in with a little bounce */
+  const cp = eoB(P(lt,150,950));
+  $('s6crow').style.opacity = Math.min(1,cp*2);
+  $('s6crow').style.transform = `translateY(${(1-cp)*-220}px)`;
+  const bob = Math.sin(lt/450)*8;
+  if (cp>=1) $('s6crow').style.transform = `translateY(${bob}px)`;
+
+  const lp = eoC(P(lt,500,1200));
+  $('s6logo').style.opacity = lp;
+  $('s6logo').style.transform = `scale(${.7+.3*lp})`;
+  fadeUp($('s6sub'), eoC(P(lt,1000,1700)), 30);
+  const up = eoB(P(lt,1500,2200));
+  $('s6url').style.opacity = up;
+  $('s6url').style.transform = `scale(${.6+.4*up})`;
+  /* gentle pulse on the URL pill once shown */
+  if (up>=1){
+    const pulse = 1 + Math.sin(lt/380)*.012;
+    $('s6url').style.transform = `scale(${pulse})`;
+  }
+  fadeUp($('s6cta'), eoC(P(lt,2300,3000)), 30);
+}
+
+/* ============================================================
+   master seek
+   ============================================================ */
+const SCENES = [
+  ['s1', renderS1], ['s2', renderS2], ['s3', renderS3],
+  ['s4', renderS4], ['s5', renderS5], ['s6', renderS6],
+];
+const XFADE = 380;   /* crossfade between scenes (ms) */
+
+window.__seek = function(t){
+  t = Math.max(0, Math.min(TOTAL-1, t));
+  SCENES.forEach(([id, fn])=>{
+    const [a,b] = DUR[id];
+    const el = $(id);
+    /* visible slightly past scene end for the outgoing crossfade */
+    const vis = t >= a - 0 && t < b + XFADE;
+    el.style.visibility = vis ? 'visible' : 'hidden';
+    if (!vis) return;
+    const lt = t - a;
+    fn(Math.min(lt, b-a));
+    /* fade in at scene start (except first), fade out handled by next scene stacking above */
+    let op = 1;
+    if (a > 0) op = Math.min(op, eoC(P(t, a, a+XFADE)));
+    if (t > b) op = Math.min(op, 1 - P(t, b, b+XFADE));   /* outgoing scene fades */
+    el.style.opacity = op;
+    el.style.zIndex = Math.floor(a/1000);   /* later scenes stack above */
+  });
+  return true;
+};
+window.__total = TOTAL;
+
+/* preview mode: append ?play to URL to watch in a browser */
+if (location.search.includes('play')){
+  const t0 = performance.now();
+  (function loop(){
+    window.__seek((performance.now()-t0) % TOTAL);
+    requestAnimationFrame(loop);
+  })();
+} else {
+  window.__seek(0);
+}
+</script>
+</body>
+</html>
