@@ -70,32 +70,39 @@ const W = 1920, H = 1080;
   const frames = Math.round(total / 1000 * FPS);
   console.log(`rendering ${frames} frames @ ${FPS}fps (${total}ms) -> ${OUT}`);
 
-  const ff = spawn(ffmpegBin, [
-    '-y',
-    '-f', 'image2pipe', '-framerate', String(FPS), '-c:v', 'mjpeg', '-i', '-',
-    '-c:v', 'libvpx', '-b:v', BITRATE, '-crf', '8', '-qmin', '4', '-qmax', '40',
-    '-deadline', 'good', '-cpu-used', '2',
-    '-pix_fmt', 'yuv420p',
-    '-an',
-    OUT,
-  ], { stdio: ['pipe', 'inherit', 'pipe'] });
-  let ffErr = '';
-  ff.stderr.on('data', d => { ffErr += d; });
-
+  /* この ffmpeg ビルドは pipe/fd プロトコル非対応 (file: のみ)。
+     全フレームを連結MJPEGファイルに書き出してから一括エンコードする。 */
+  const tmpMjpeg = OUT + '.frames.mjpeg';
+  const sink = fs.createWriteStream(tmpMjpeg);
   const t0 = Date.now();
   for (let i = 0; i < frames; i++) {
     const ms = i * 1000 / FPS;
     await page.evaluate(t => window.__seek(t), ms);
     const buf = await page.screenshot({ type: 'jpeg', quality: 95 });
-    if (!ff.stdin.write(buf)) await new Promise(r => ff.stdin.once('drain', r));
-    if (i % 60 === 0) {
+    if (!sink.write(buf)) await new Promise(r => sink.once('drain', r));
+    if (i % 120 === 0) {
       const el = (Date.now() - t0) / 1000;
       console.log(`frame ${i}/${frames}  (${el.toFixed(0)}s elapsed, ${(i / el || 0).toFixed(1)} fps)`);
     }
   }
-  ff.stdin.end();
-  await new Promise((res, rej) => ff.on('close', c => c === 0 ? res() : rej(new Error('ffmpeg exit ' + c + '\n' + ffErr.slice(-2000)))));
+  await new Promise(r => sink.end(r));
   await browser.close();
+  console.log(`captured ${frames} frames (${(fs.statSync(tmpMjpeg).size / 1024 / 1024).toFixed(1)} MB), encoding...`);
+
+  const ff = spawn(ffmpegBin, [
+    '-y',
+    '-f', 'image2pipe', '-framerate', String(FPS), '-c:v', 'mjpeg', '-i', 'file:' + tmpMjpeg,
+    '-c:v', 'libvpx', '-b:v', BITRATE, '-crf', '8', '-qmin', '4', '-qmax', '40',
+    '-deadline', 'good', '-cpu-used', '2',
+    '-pix_fmt', 'yuv420p',
+    '-an',
+    OUT,
+  ], { stdio: ['ignore', 'inherit', 'pipe'] });
+  let ffErr = '';
+  ff.stderr.on('data', d => { ffErr += d; });
+  ff.on('error', e => { console.error('ffmpeg spawn error:', e); process.exit(1); });
+  await new Promise((res, rej) => ff.on('close', c => c === 0 ? res() : rej(new Error('ffmpeg exit ' + c + '\n' + ffErr.slice(-2000)))));
+  fs.unlinkSync(tmpMjpeg);
 
   const size = fs.statSync(OUT).size;
   console.log(`done: ${OUT} (${(size / 1024 / 1024).toFixed(2)} MB, ${(Date.now() - t0) / 1000 | 0}s)`);
